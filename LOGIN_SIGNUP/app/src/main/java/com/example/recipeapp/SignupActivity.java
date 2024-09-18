@@ -1,20 +1,16 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.example.recipeapp.databinding.ActivitySignupBinding;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class SignupActivity extends AppCompatActivity {
 
     ActivitySignupBinding binding;
-    DatabaseHelper databaseHelper;
+    myDbAdapter myDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +18,27 @@ public class SignupActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        databaseHelper = new DatabaseHelper(this);
+        myDbHelper = new myDbAdapter(this);
 
         binding.signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = binding.signupEmail.getText().toString();
-                String password = binding.signupPassword.getText().toString(); // Updated ID
-                String confirmPassword = binding.signupConfirm.getText().toString(); // Updated ID
+                String password = binding.signupPassword.getText().toString();
+                String confirmPassword = binding.signupConfirm.getText().toString();
 
                 if (email.equals("") || password.equals("") || confirmPassword.equals("")) {
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 } else {
                     if (validateEmail(email)) {
-                        if (validatePassword(password)) { // Check if password meets the criteria
+                        if (validatePassword(password)) {
                             if (password.equals(confirmPassword)) {
-                                Boolean checkUserEmail = databaseHelper.checkEmail(email);
+                                Boolean checkUserEmail = myDbHelper.checkEmail(email);
 
                                 if (!checkUserEmail) {
-                                    Boolean insert = databaseHelper.insertData(email, password);
+                                    long insert = myDbHelper.insertData(email, password);
 
-                                    if (insert) {
+                                    if (insert != -1) {
                                         Toast.makeText(SignupActivity.this, "Signup Successfully", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                         startActivity(intent);
@@ -65,10 +61,11 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        // Add click listener to navigate to LoginActivity
         binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

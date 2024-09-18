@@ -16,7 +16,7 @@ import com.example.recipeapp.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
-    DatabaseHelper databaseHelper;
+    myDbHelper myDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        databaseHelper = new DatabaseHelper(this);
+        myDbHelper = new myDbHelper(this); // Changed myDbAdapter to myDbHelper
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,18 +35,23 @@ public class LoginActivity extends AppCompatActivity {
                 if (email.equals("") || password.equals(""))
                     Toast.makeText(LoginActivity.this,"All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else  {
-                    Boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
-
-                    if (checkCredentials == true) {
-                        Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                    boolean emailExists = myDbHelper.checkEmailExistence(email); // Changed checkEmail to checkEmailExistence
+                    if (emailExists) {
+                        boolean validatePassword = myDbHelper.checkEmailPassword(email, password); // Changed checkPassword to checkEmailPassword
+                        if (validatePassword) {
+                            Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Email does not exist", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+
         binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
