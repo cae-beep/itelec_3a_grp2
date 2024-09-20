@@ -11,4 +11,15 @@
     <color name="yellow">#FFBF00</color>
     <color name="gray">#808080</color>
 
+    <color name="home">#FFBF00</color>
+    <color name="like">#FFBF00</color>
+    <color name="add">#FFBF00</color>
+    <color name="user">#FFBF00</color>
+
+    <color name="home_20">#FFC107</color>
+    <color name="like_20">#FFC107</color>
+    <color name="add_20">#FFC107</color>
+    <color name="user_20">#FFC107</color>
+
+
 </resources>
