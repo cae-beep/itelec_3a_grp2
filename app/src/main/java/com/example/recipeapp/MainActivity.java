@@ -8,11 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout userLayout = findViewById(R.id.userLayout);
 
         final ImageView homeImage = findViewById(R.id.homeImage);
-        final ImageView likeImage = findViewById(R.id.likeImage);
+        final ImageView likeImage = findViewById(R.id.NotifImage);
         final ImageView addImage = findViewById(R.id.addImage);
         final ImageView userImage = findViewById(R.id.userImage);
 
