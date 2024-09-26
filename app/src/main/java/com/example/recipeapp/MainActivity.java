@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Check if home is already selected
                 if (selectedTab != 1) {
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                                    .replace(R.id.fragment_container_view_tag, HomeFragment.class, null)
+                                    .commit();
                     switchToTab(homeLayout, homeImage, homeText, R.drawable.home, R.drawable.round_back_home_100);
                     selectedTab = 1;
                 }
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.fragment_container_view_tag, LikesFragment.class, null)
                             .commit();
 
-                    switchToTab(likeLayout, likeImage, likeText, R.drawable.like, R.drawable.round_back_like_100);
+                    switchToTab(likeLayout, likeImage, likeText, R.drawable.notif, R.drawable.round_back_notif_100);
                     selectedTab = 2;
                 }
             }
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.userText).setVisibility(View.GONE);
 
         ((ImageView) findViewById(R.id.homeImage)).setImageResource(R.drawable.home);
-        ((ImageView) findViewById(R.id.likeImage)).setImageResource(R.drawable.like);
+        ((ImageView) findViewById(R.id.likeImage)).setImageResource(R.drawable.notif);
         ((ImageView) findViewById(R.id.addImage)).setImageResource(R.drawable.add);
         ((ImageView) findViewById(R.id.userImage)).setImageResource(R.drawable.user);
 

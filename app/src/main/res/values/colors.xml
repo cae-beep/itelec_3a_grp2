@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
-    <color name="yellow">#FFBF00</color>
     <color name="gray">#808080</color>
 
     <color name="home">#FFBF00</color>
@@ -20,6 +19,9 @@
     <color name="like_20">#FFC107</color>
     <color name="add_20">#FFC107</color>
     <color name="user_20">#FFC107</color>
+    <color name="dirtywhite">#f3f5f3</color>
+    <color name="yellow">#f3ca52</color>
+    <color name="grayish">#f5f7f8</color>
 
 
 </resources>
