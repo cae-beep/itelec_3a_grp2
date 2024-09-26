@@ -1,0 +1,72 @@
+New! Keyboard shortcuts … Drive keyboard shortcuts have been updated to give you first-letters navigation
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" media="screen and (max-width:800px)" href="tablet.css">
+    <link rel="stylesheet" media="screen and (max-width:530px)"href="phone.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#interests">Interests</a></li>
+            <li><a href="#contact">Contact Me</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <div class="main">
+            <h1 class="headings"> I AM <br> ELOISA CARYL </h1>
+            <button class="btn">
+                Hire Me
+            </button>
+        </div>
+    </section>
+
+    <section id="about">
+        <h1 class="headings">ABOUT ME <MEnu></MEnu></h1>
+        <div id="pic">
+        
+            <img src="nobg.png" alt="">
+            <div id="intro">
+                <h2>ELOISA CARYL R. TACLA</h2>
+                <p>I am Eloisa Caryl Tacla, born and brought up in Malvar, Batangas. I'm currently studying at University of Batangas Lipa Campus taking Bachelor of Science in Information Technology. I'm 18 years old. I have a couple of hobbies which are playing online games, watching movies and listening to music. I believe my strengths are I'm a self motivated person, confident with a positive attitude, passionate and patient. My short term goal is to earn a passing grade by the end of the semester . My long term goal that I have set is to become a web developer in an IT company and travel around the world. Coming to my family background, we are 5 members in my family including me, my parents and my two younger sisters. </p>
+                <h3>FUN FACT ABOUT ME</h3>
+                <p>The superpower that I want is the ability to fly</p>
+                <p>If I had to live my native country, I would go to Japan.</p>
+                <p>I drink coffee everyday</p>
+                <p>I love pink</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="interests">
+        <h1 class="headings">INTERESTS <MEnu></MEnu></h1>
+        <div class="gallery">
+            <img src="interests/codm.jpg" alt="">
+            <img src="interests/korean.webp" alt="">
+            <img src="interests/ml.jpg" alt="">
+            <img src="interests/spotify.jpg" alt="">
+            <img src="interests/puzzles.jpg" alt="">
+            <img src="interests/astro.jpg" alt="">
+        </div>
+    </section>
+
+    <section id="contact">
+        <h1 class="headings">CONTACT</h1>
+        <form action="" class="form">
+            <input type="text" name="name" class="input" placeholder="Enter you name">
+            <input type="email" name="email" class="input" placeholder="Enter Your Email">
+            <textarea name="msg" id="msg" cols="30" rows="10" placeholder="Enter your message"></textarea>
+            <input type="submit" value="SEND" id="send">
+        </form>
+    </section>
+ 
+</body>
+</html>
