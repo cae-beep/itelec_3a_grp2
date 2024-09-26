@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.userText).setVisibility(View.GONE);
 
         ((ImageView) findViewById(R.id.homeImage)).setImageResource(R.drawable.home);
-        ((ImageView) findViewById(R.id.likeImage)).setImageResource(R.drawable.notif);
         ((ImageView) findViewById(R.id.addImage)).setImageResource(R.drawable.add);
         ((ImageView) findViewById(R.id.userImage)).setImageResource(R.drawable.user);
 
