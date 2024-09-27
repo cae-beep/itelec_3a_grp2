@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingTop="15dp"
@@ -31,25 +30,21 @@
         android:elevation="10dp"
         android:gravity="center"
         android:background="#FFFFFF"
-        android:layout_alignParentBottom="true"
-        tools:targetApi="lollipop">
+        android:layout_alignParentBottom="true">
 
         <!-- Home Tab -->
         <LinearLayout
             android:id="@+id/homeLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:gravity="center"
             android:layout_weight="1"
-            android:background="@android:color/transparent">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/homeImage"
                 android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/home" />
 
@@ -60,58 +55,48 @@
                 android:text="Home"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Notif Tab -->
+        <!-- Search Tab -->
         <LinearLayout
-            android:id="@+id/likeLayout"
-            android:layout_width="wrap_content"
+            android:id="@+id/searchLayout"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:gravity="center"
             android:layout_weight="1"
-            android:background="@android:color/transparent">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
-                android:id="@+id/NotifImage"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/searchImage"
+                android:layout_width="19dp"
+                android:layout_height="20dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/notif" />
+                android:src="@drawable/icon_search" />
 
             <TextView
-                android:id="@+id/likeText"
+                android:id="@+id/searchText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notification"
+                android:text="Search"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Add Tab -->
+        <!-- Add Tab (Centered) -->
         <LinearLayout
             android:id="@+id/addLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:gravity="center"
             android:layout_weight="1"
-            android:background="@android:color/transparent">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
-                android:id="@+id/addImage"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/AddImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/add" />
 
@@ -122,27 +107,48 @@
                 android:text="Add"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Notification Tab -->
+        <LinearLayout
+            android:id="@+id/NotifLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/NotifImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/notif" />
+
+            <TextView
+                android:id="@+id/NotifText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notification"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- User Tab -->
         <LinearLayout
             android:id="@+id/userLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:gravity="center"
             android:layout_weight="1"
-            android:background="@android:color/transparent">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/userImage"
                 android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/user" />
 
@@ -153,9 +159,7 @@
                 android:text="User"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
