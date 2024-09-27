@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
                                 Boolean checkUserEmail = myDbHelper.checkEmail(email);
 
                                 if (!checkUserEmail) {
-                                    long insert = myDbHelper.insertData(email, password);
+                                    long insert = myDbHelper.insertUserData(email, password); // Fixed method name
 
                                     if (insert != -1) {
                                         Toast.makeText(SignupActivity.this, "Signup Successfully", Toast.LENGTH_SHORT).show();

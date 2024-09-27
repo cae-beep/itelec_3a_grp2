@@ -6,45 +6,86 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class myDbAdapter {
-    myDbHelper myhelper;
+    private myDbHelper myhelper;
+
     public myDbAdapter(Context context) {
         myhelper = new myDbHelper(context);
     }
 
-    public long insertData(String email, String password) {
-        SQLiteDatabase dbb = myhelper.getWritableDatabase();
+    // Insert User Data
+    public long insertUserData(String email, String password) {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(myhelper.getName(), email);
-        contentValues.put(myhelper.getMyPASSWORD(), password);
-        long id = dbb.insert(myhelper.getTableName(), null, contentValues);
+        contentValues.put("email", email); // Replaced myhelper.getName() with the actual column name
+        contentValues.put("password", password); // Replaced myhelper.getMyPASSWORD() with the actual column name
+        long id = db.insert("users", null, contentValues); // Replaced myhelper.getTableName() with the actual table name
+        db.close(); // Close the database after inserting data
         return id;
     }
 
-    public boolean checkEmail(String email) {
+    // Insert Recipe Data
+    public long insertRecipeData(String dishName, String category, String procedure, String description, String ingredients) {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myhelper.UID, myhelper.getName(), myhelper.getMyPASSWORD()};
-        String[] whereArgs = {email};
-        Cursor cursor = db.query(myhelper.getTableName(), columns, myhelper.getName() + " = ?", whereArgs, null, null, null);
-        return cursor.getCount() > 0;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("dish_name", dishName);
+        contentValues.put("category", category);
+        contentValues.put("procedure", procedure);
+        contentValues.put("description", description);
+        contentValues.put("ingredients", ingredients);
+        long id = db.insert("recipes", null, contentValues);
+        db.close(); // Close the database after inserting data
+        return id;
     }
-    public boolean checkPassword(String email, String password) {
-        SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myhelper.getMyPASSWORD()};
-        String[] selectionArgs = {email};
-        String selection = myhelper.getName() + " = ?";
 
-        Cursor cursor = db.query(myhelper.getTableName(), columns, selection, selectionArgs, null, null, null);
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(myhelper.getMyPASSWORD());
+    // Check if email exists
+    public boolean checkEmail(String email) {
+        SQLiteDatabase db = myhelper.getReadableDatabase();
+        String[] columns = {"_id", "email", "password"}; // Replaced myhelper.getName() and myhelper.getMyPASSWORD()
+        String[] whereArgs = {email};
+        Cursor cursor = db.query("users", columns, "email = ?", whereArgs, null, null, null); // Corrected the query
+        boolean exists = cursor.getCount() > 0;
+        cursor.close(); // Close the cursor
+        db.close(); // Close the database
+        return exists;
+    }
+
+    // Check if password matches
+    public boolean checkPassword(String email, String password) {
+        SQLiteDatabase db = myhelper.getReadableDatabase();
+        String[] columns = {"password"}; // Replaced myhelper.getMyPASSWORD() with the actual column name
+        String[] selectionArgs = {email};
+        String selection = "email = ?"; // Replaced myhelper.getName() with the actual column name
+
+        Cursor cursor = db.query("users", columns, selection, selectionArgs, null, null, null);
+        boolean isValidPassword = false;
+
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("password"); // Replaced myhelper.getMyPASSWORD() with the actual column name
             if (columnIndex != -1) {
                 String storedPassword = cursor.getString(columnIndex);
-                return storedPassword.equals(password);
-            } else {
-                return false; // or throw an exception, depending on your requirements
+                isValidPassword = storedPassword.equals(password);
             }
-        } else {
-            return false;
         }
+        cursor.close(); // Close the cursor
+        db.close(); // Close the database
+        return isValidPassword;
+    }
+
+    // Retrieve All Recipes
+    public Cursor getAllRecipes() {
+        SQLiteDatabase db = myhelper.getReadableDatabase();
+        String[] columns = {"_id", "dish_name", "category", "procedure", "description", "ingredients"};
+        Cursor cursor = db.query("recipes", columns, null, null, null, null, null);
+        return cursor; // Remember to close the cursor where you use it
+    }
+
+    // Retrieve a specific recipe by ID
+    public Cursor getRecipeById(int id) {
+        SQLiteDatabase db = myhelper.getReadableDatabase();
+        String[] columns = {"_id", "dish_name", "category", "procedure", "description", "ingredients"};
+        String selection = "_id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query("recipes", columns, selection, selectionArgs, null, null, null);
+        return cursor; // Remember to close the cursor where you use it
     }
 }
