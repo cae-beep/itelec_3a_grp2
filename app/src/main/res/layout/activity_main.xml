@@ -15,7 +15,9 @@
         android:layout_height="0dp"
         android:layout_above="@+id/bottom"
         android:layout_alignParentTop="true"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:name="com.example.recipeapp.searchFragment"
+        tools:layout="@layout/fragment_search"/>
 
     <!-- Bottom navigation layout -->
     <LinearLayout
