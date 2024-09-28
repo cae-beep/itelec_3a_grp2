@@ -5,18 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.recipeapp.databinding.ActivityLoginBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
-    myDbHelper myDbHelper;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        myDbHelper = new myDbHelper(this); // Changed myDbAdapter to myDbHelper
+        firebaseAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,22 +30,24 @@ public class LoginActivity extends AppCompatActivity {
                 String email = binding.loginEmail.getText().toString();
                 String password = binding.loginPassword.getText().toString();
 
-                if (email.equals("") || password.equals(""))
-                    Toast.makeText(LoginActivity.this,"All fields are mandatory", Toast.LENGTH_SHORT).show();
-                else  {
-                    boolean emailExists = myDbHelper.checkEmailExistence(email); // Changed checkEmail to checkEmailExistence
-                    if (emailExists) {
-                        boolean validatePassword = myDbHelper.checkEmailPassword(email, password); // Changed checkPassword to checkEmailPassword
-                        if (validatePassword) {
-                            Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Email does not exist", Toast.LENGTH_SHORT).show();
-                    }
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                } else {
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                    if (user != null && user.isEmailVerified()) {
+                                        Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Please verify your email address", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });

@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.example.recipeapp.databinding.ActivitySignupBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
 
     ActivitySignupBinding binding;
-    myDbAdapter myDbHelper;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,7 @@ public class SignupActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        myDbHelper = new myDbAdapter(this);
+        firebaseAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
 
         binding.signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,27 +29,34 @@ public class SignupActivity extends AppCompatActivity {
                 String password = binding.signupPassword.getText().toString();
                 String confirmPassword = binding.signupConfirm.getText().toString();
 
-                if (email.equals("") || password.equals("") || confirmPassword.equals("")) {
+                if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 } else {
                     if (validateEmail(email)) {
                         if (validatePassword(password)) {
                             if (password.equals(confirmPassword)) {
-                                Boolean checkUserEmail = myDbHelper.checkEmail(email);
-
-                                if (!checkUserEmail) {
-                                    long insert = myDbHelper.insertUserData(email, password); // Fixed method name
-
-                                    if (insert != -1) {
-                                        Toast.makeText(SignupActivity.this, "Signup Successfully", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(SignupActivity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Toast.makeText(SignupActivity.this, "User already exists, Please login", Toast.LENGTH_SHORT).show();
-                                }
+                                // Create user with Firebase Authentication
+                                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                                // Send verification email
+                                                if (user != null) {
+                                                    user.sendEmailVerification()
+                                                            .addOnCompleteListener(verificationTask -> {
+                                                                if (verificationTask.isSuccessful()) {
+                                                                    Toast.makeText(SignupActivity.this, "Signup Successfully. Please check your email to verify your account.", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                                    startActivity(intent);
+                                                                } else {
+                                                                    Toast.makeText(SignupActivity.this, "Failed to send verification email: " + verificationTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                }
+                                            } else {
+                                                Toast.makeText(SignupActivity.this, "Signup Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             } else {
                                 Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                             }
