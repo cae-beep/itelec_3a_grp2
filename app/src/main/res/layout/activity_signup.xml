@@ -16,12 +16,26 @@
         android:padding="40dp"
         android:gravity="center_horizontal"> <!-- Center contents horizontally -->
 
+        <!-- Full Name EditText -->
+        <EditText
+            android:id="@+id/signup_fullname"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/lavender_border"
+            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawablePadding="8dp"
+            android:hint="Full Name"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/black"
+            android:padding="8dp" />
+
         <!-- Email EditText -->
         <EditText
             android:id="@+id/signup_email"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/lavender_border"
             android:drawableLeft="@drawable/baseline_email_24"
             android:drawablePadding="8dp"
@@ -30,33 +44,65 @@
             android:textColor="@color/black"
             android:padding="8dp" />
 
-        <!-- Password EditText -->
+        <!-- Username EditText -->
         <EditText
-            android:id="@+id/signup_password"
+            android:id="@+id/signup_username"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/lavender_border"
-            android:drawableLeft="@drawable/baseline_lock_24"
+            android:drawableLeft="@drawable/baseline_person_outline_24"
             android:drawablePadding="8dp"
-            android:hint="Password"
+            android:hint="Username"
             android:textColorHint="@color/gray"
-            android:inputType="textPassword"
+            android:textColor="@color/black"
             android:padding="8dp" />
 
-        <!-- Confirm Password EditText -->
-        <EditText
-            android:id="@+id/signup_confirm"
+        <!-- Password EditText -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/lavender_border"
-            android:drawableLeft="@drawable/baseline_password_24"
-            android:drawablePadding="8dp"
-            android:hint="Confirm Password"
-            android:textColorHint="@color/gray"
-            android:inputType="textPassword"
-            android:padding="8dp" />
+            app:passwordToggleEnabled="true"
+            app:passwordToggleDrawable="@drawable/eye_icon">
+
+            <EditText
+                android:id="@+id/signup_password"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/lavender_border"
+                android:drawableLeft="@drawable/baseline_lock_24"
+                android:drawablePadding="8dp"
+                android:hint="Password"
+                android:textColorHint="@color/gray"
+                android:inputType="textPassword"
+                android:padding="8dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password EditText -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirm_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleDrawable="@drawable/eye_icon">
+
+            <EditText
+                android:id="@+id/signup_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/lavender_border"
+                android:drawableLeft="@drawable/baseline_password_24"
+                android:drawablePadding="8dp"
+                android:hint="Confirm Password"
+                android:textColorHint="@color/gray"
+                android:inputType="textPassword"
+                android:padding="8dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Sign Up Button -->
         <Button
@@ -75,13 +121,6 @@
             android:id="@+id/loginRedirectText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            android:text="Already a user? Login"
-            android:textColor="@color/yellow"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"/>
-
+            android:layout_marginTop="8dp" />
     </LinearLayout>
-
 </ScrollView>

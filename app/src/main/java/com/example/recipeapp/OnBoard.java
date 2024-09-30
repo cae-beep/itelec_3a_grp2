@@ -10,17 +10,14 @@ public class OnBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_onboard);  // Make sure this XML file exists and is named correctly
+        setContentView(R.layout.activity_onboard);
 
-        // Find the button by its ID (make sure the button ID is correct)
         Button buttonGetStarted = findViewById(R.id.btn_getstarted);
 
-        // Set an OnClickListener for the button
         buttonGetStarted.setOnClickListener(v -> {
-            // Navigate to SignupActivity when the button is clicked
-            Intent intent = new Intent(OnBoard.this, SignupActivity.class);  // Ensure SignupActivity exists and is spelled correctly
+            Intent intent = new Intent(OnBoard.this, LoginActivity.class);
             startActivity(intent);
-            finish();  // Optional: Prevent returning to onboarding screen
+            finish();
         });
     }
 }
