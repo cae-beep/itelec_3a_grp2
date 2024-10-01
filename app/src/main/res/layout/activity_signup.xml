@@ -78,7 +78,6 @@
                 android:textColorHint="@color/gray"
                 android:inputType="textPassword"
                 android:padding="8dp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Confirm Password EditText -->
@@ -101,7 +100,6 @@
                 android:textColorHint="@color/gray"
                 android:inputType="textPassword"
                 android:padding="8dp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Sign Up Button -->
@@ -121,6 +119,11 @@
             android:id="@+id/loginRedirectText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Already have an account? Log in here"
+            android:textColor="@color/yellow"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 </ScrollView>

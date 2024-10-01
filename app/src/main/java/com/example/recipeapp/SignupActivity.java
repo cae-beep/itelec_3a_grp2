@@ -8,14 +8,20 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
+
 import com.example.recipeapp.databinding.ActivitySignupBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    ActivitySignupBinding binding;
-    FirebaseAuth firebaseAuth;
+    private ActivitySignupBinding binding;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
+        firestore = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         // Set input filter to limit email length to 50 characters
         binding.signupEmail.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
@@ -87,19 +94,38 @@ public class SignupActivity extends AppCompatActivity {
                                         .addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
                                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                                                // Send verification email
-                                                if (user != null) {
-                                                    user.sendEmailVerification()
-                                                            .addOnCompleteListener(verificationTask -> {
-                                                                if (verificationTask.isSuccessful()) {
-                                                                    Toast.makeText(SignupActivity.this, "Signup Successfully. Please check your email to verify your account.", Toast.LENGTH_SHORT).show();
-                                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                                                    startActivity(intent);
-                                                                } else {
-                                                                    Toast.makeText(SignupActivity.this, "Failed to send verification email: " + verificationTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                }
+                                                String userId = user.getUid();
+
+                                                // Prepare user data for Firestore
+                                                Map<String, Object> userData = new HashMap<>();
+                                                userData.put("fullName", fullName);
+                                                userData.put("email", email);
+                                                userData.put("username", username);
+
+                                                // Save user data to Firestore
+                                                firestore.collection("users").document(userId)
+                                                        .set(userData)
+                                                        .addOnSuccessListener(aVoid -> {
+                                                            // User data saved successfully
+                                                            Toast.makeText(SignupActivity.this, "User data saved successfully!", Toast.LENGTH_SHORT).show();
+                                                            // Send verification email
+                                                            if (user != null) {
+                                                                user.sendEmailVerification()
+                                                                        .addOnCompleteListener(verificationTask -> {
+                                                                            if (verificationTask.isSuccessful()) {
+                                                                                Toast.makeText(SignupActivity.this, "Signup Successful. Please check your email to verify your account.", Toast.LENGTH_SHORT).show();
+                                                                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                                                startActivity(intent);
+                                                                            } else {
+                                                                                Toast.makeText(SignupActivity.this, "Failed to send verification email: " + verificationTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            // Failed to save user data
+                                                            Toast.makeText(SignupActivity.this, "Failed to save user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        });
                                             } else {
                                                 Toast.makeText(SignupActivity.this, "Signup Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                             }
@@ -117,7 +143,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // Add click listener to navigate to LoginActivity
+        // Clickable text to navigate to LoginActivity
         binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
