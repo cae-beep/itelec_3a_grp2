@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .recipe-details {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 300px;
+            margin-top: 20px;
+        }
+        .label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .value {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Recipe Details</h1>
+
+<?php
+// Connect to the MySQL database
+$servername = "127.0.0.1";
+$username = "root";
+$password = "secretsecret4";
+$dbname = "schema_user";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve recipe data (assuming you're retrieving the latest recipe for demonstration purposes)
+$sql = "SELECT name, `desc`, ingredients, `procedure`, img FROM tbl_recipe WHRE recipeId = 1";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Output data of the latest recipe
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="recipe-details">';
+        echo '<div class="label">Recipe Name:</div><div class="value">' . htmlspecialchars($row["name"]) . '</div>';
+        echo '<div class="label">Description:</div><div class="value">' . htmlspecialchars($row["desc"]) . '</div>';
+        echo '<div class="label">Ingredients:</div><div class="value">' . htmlspecialchars($row["ingredients"]) . '</div>';
+        echo '<div class="label">Procedure:</div><div class="value">' . htmlspecialchars($row["procedure"]) . '</div>';
+        
+        // Display the Base64 image
+        if (!empty($row["img"])) {
+            echo '<div class="label">Recipe Image:</div>';
+            echo '<img src="data:image/jpeg;base64,' . htmlspecialchars($row["img"]) . '" alt="Recipe Image">';
+        } else {
+            echo '<div class="label">Recipe Image:</div><div class="value">No image uploaded.</div>';
+        }
+        
+        echo '</div>';
+    }
+} else {
+    echo "<p>No recipes found.</p>";
+}
+
+// Close connection
+$conn->close();
+?>
+
+</body>
+</html>
