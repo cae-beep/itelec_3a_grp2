@@ -11,19 +11,22 @@ $port = 3306;
 $response = ['success' => false, 'message' => 'An unknown error occurred.'];
 
 try {
+    // Create database connection
     $conn = new mysqli($servername, $username, $password, $dbname, $port);
     if ($conn->connect_error) {
         throw new Exception('Database connection failed.');
     }
 
+    // Fetch the request data from the frontend
     $data = json_decode(file_get_contents("php://input"), true);
     $action = $data['action'] ?? null;
     $recipeId = $data['recipeId'] ?? null;
 
-    // Check if user is logged in
+    // Get the user ID from the session
     $userId = $_SESSION['user_id'] ?? null;
     if (!$userId) {
-        throw new Exception('User not logged in.');
+        echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+        exit;
     }
 
     // Validate action and recipeId
@@ -31,7 +34,7 @@ try {
         throw new Exception('Invalid parameters provided.');
     }
 
-    // Prepare the logic for like and unlike actions
+    // Handle the like/unlike action
     if ($action === 'like') {
         // Check if the user has already liked this recipe
         $checkStmt = $conn->prepare("SELECT COUNT(*) as count FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
@@ -45,28 +48,44 @@ try {
             throw new Exception('Recipe already liked.');
         }
 
-        // Insert a new like and increment likeCount
+        // Insert a new like
         $likeStmt = $conn->prepare("INSERT INTO tbl_likes (recipeId, user_Id, created_at) VALUES (?, ?, NOW())");
         $likeStmt->bind_param("ii", $recipeId, $userId);
-
         if ($likeStmt->execute()) {
+            // Update the like count in the tbl_recipe table
             $updateStmt = $conn->prepare("UPDATE tbl_recipe SET likeCount = likeCount + 1 WHERE recipeId = ?");
             $updateStmt->bind_param("i", $recipeId);
             $updateStmt->execute();
             $updateStmt->close();
 
+            // Fetch the updated like count
             $countStmt = $conn->prepare("SELECT likeCount FROM tbl_recipe WHERE recipeId = ?");
             $countStmt->bind_param("i", $recipeId);
             $countStmt->execute();
             $countResult = $countStmt->get_result();
             $likeCount = $countResult->fetch_assoc()['likeCount'];
+            $countStmt->close();
+
+            // Insert a new notification if the liker is not the owner of the recipe
+            $ownerStmt = $conn->prepare("SELECT user_Id FROM tbl_recipe WHERE recipeId = ?");
+            $ownerStmt->bind_param("i", $recipeId);
+            $ownerStmt->execute();
+            $ownerResult = $ownerStmt->get_result();
+            $recipeOwner = $ownerResult->fetch_assoc()['user_Id'];
+            $ownerStmt->close();
+
+            if ($recipeOwner && $recipeOwner != $userId) {
+                $notifStmt = $conn->prepare("INSERT INTO tbl_notifications (user_Id, recipeId, notification_type, notification_status, created_at, notifier_user_Id) VALUES (?, ?, 'like', 0, NOW(), ?)");
+                $notifStmt->bind_param("iii", $recipeOwner, $recipeId, $userId); // $userId is the liker
+                $notifStmt->execute();
+                $notifStmt->close();
+            }
 
             $response = ['success' => true, 'message' => 'Recipe liked successfully!', 'likeCount' => $likeCount];
         } else {
             throw new Exception('Error executing like.');
         }
         $likeStmt->close();
-
     } elseif ($action === 'unlike') {
         // Check if the user has liked this recipe
         $checkStmt = $conn->prepare("SELECT COUNT(*) as count FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
@@ -80,28 +99,29 @@ try {
             throw new Exception('Recipe not liked by this user.');
         }
 
-        // Delete the like and decrement likeCount
+        // Delete the like
         $unlikeStmt = $conn->prepare("DELETE FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
         $unlikeStmt->bind_param("ii", $recipeId, $userId);
-
         if ($unlikeStmt->execute()) {
+            // Decrease the like count in the tbl_recipe table
             $updateStmt = $conn->prepare("UPDATE tbl_recipe SET likeCount = GREATEST(likeCount - 1, 0) WHERE recipeId = ?");
             $updateStmt->bind_param("i", $recipeId);
             $updateStmt->execute();
             $updateStmt->close();
 
+            // Fetch the updated like count
             $countStmt = $conn->prepare("SELECT likeCount FROM tbl_recipe WHERE recipeId = ?");
             $countStmt->bind_param("i", $recipeId);
             $countStmt->execute();
             $countResult = $countStmt->get_result();
             $likeCount = $countResult->fetch_assoc()['likeCount'];
+            $countStmt->close();
 
             $response = ['success' => true, 'message' => 'Recipe unliked successfully!', 'likeCount' => $likeCount];
         } else {
             throw new Exception('Error executing unlike.');
         }
         $unlikeStmt->close();
-
     } else {
         throw new Exception('Invalid action specified.');
     }
@@ -111,7 +131,9 @@ try {
     $response['message'] = $e->getMessage();
 }
 
+// Return the response to the client
 echo json_encode($response);
+
+// Close the database connection
 $conn->close();
-exit;
 ?>

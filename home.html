@@ -1,52 +1,151 @@
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>MunchMate</title>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>MunchMate</title>
 
-    <!-- External CSS and Scripts -->
-    <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
-    <style>
-        /* Additional CSS for modal scrolling */
-        .modal {
-            overflow-y: auto;
-            max-height: 100%;
+
+
+
+        <!-- External CSS and Scripts -->
+        <link rel="stylesheet" href="styles.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
+        <style>
+            /* Additional CSS for modal scrolling */
+            .modal {
+                overflow-y: auto;
+                max-height: 100%;
+            }
+            .modal-content {
+                max-height: 90%;
+                overflow-y: auto;
+            }
+        body {
+            background-image: url('bg1.jpg'); /* Replace 'background.jpg' with your image file path */
+            background-size: cover; /* Makes sure the background image covers the entire viewport */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center; /* Centers the image */
+            background-attachment: fixed; /* Keeps the image fixed as you scroll */
         }
-        .modal-content {
-            max-height: 90%;
-            overflow-y: auto;
-        }
+        .recipe-card, .modal-content, .button {
+                border-radius: 30px; /* Bubble-like rounded corners */
+                padding: 20px; /* Inner padding for the cards and modal */
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+                border: 2px solid #4CAF50; /* Green bubble border */
+            }
+
+
+
+
+            /* Recipe Card specific styles */
+            .recipe-card {
+                background-color: #fff; /* White background for the card */
+                cursor: pointer; /* Makes the card clickable */
+                transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+            }
+
+
+
+
+            .recipe-card:hover {
+                transform: scale(1.05); /* Zooms in the card on hover */
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+            }
+
+
+
+
+            .recipe-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover; /* Ensures the image covers the area without distortion */
+                border-radius: 30px 30px 0 0; /* Rounded top corners for images */
+            }
+
+
+
+
+            /* Modal-specific styles */
+            .modal-content {
+                background-color: #fff; /* White background for modal */
+                max-width: 600px; /* Limit modal width */
+                margin: auto;
+            }
+
+    /* Ensure the modal and button are in the front */
+    .modal {
+        z-index: 50;
+    }
+
+    .modal .close-modal-button {
+        z-index: 70;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+            /* Category select and other form elements with bubble border */
+            select, input, textarea {
+                border-radius: 30px; /* Bubble-like border */
+                padding: 10px 20px;
+                border: 2px solid #4CAF50;
+                outline: none;
+            }
+
+
+
+
+            /* Hover effect for form inputs */
+            select:hover, input:hover, textarea:hover {
+                border-color: #45a049; /* Darker green on hover */
+            }
+
+
+
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .recipe-card {
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+
+
+
+
+                .modal-content {
+                    width: 90%;
+                }
+            }
     </style>
-</head>
-<body>
-<nav class="w-full flex justify-between items-center py-4 px-8 bg-white shadow-md">
-    <div class="flex items-center">
-        <span class="bg-yellow-400 text-green-800 text-lg px-4 py-2 rounded-full font-bold">MUNCHMATE</span>
-    </div>
-    <div class="flex items-center space-x-8">
-        <a id="discoverTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('discover')">DISCOVER</a>
-        <a id="addRecipeTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('addRecipe')">ADD RECIPE</a>
-        <a id="notificationsTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('notifications')">NOTIFICATIONS</a>
-        <a id="userTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('user')">USER</a>
-    </div>
-</nav>
+    </head>
+    <body>
+        <nav class="w-full flex justify-between items-center py-4 px-8 shadow-md">
+            <div class="flex items-center">
+                <span class="bg-green-800 text-yellow-500 text-lg px-4 py-2 rounded-full font-bold flex items-center">
+                    <img src="logo12.png" alt="Logo" class="w-4 h-5 mr-1"> MUNCHMATE
+                </span>
+            </div>    
+        <div class="flex items-center space-x-8">
+            <a id="discoverTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('discover')">DISCOVER</a>
+            <a id="addRecipeTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('addRecipe')">ADD RECIPE</a>
+            <a id="notificationsTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('notifications')">NOTIFICATIONS</a>
+            <a id="userTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('user')">USER</a>
+        </div>
+    </nav>
 
-<!-- Discover Section -->
-<div class="page w-full mt-8 px-8 hidden" id="discover">
-    <h1 class="text-green-800 text-6xl font-bold mb-8">Top Recipes</h1>
-    <div class="grid grid-cols-3 gap-8">
 
-        <!-- Content for Top Recipes -->
-    </div>
 
-    <!-- Discover Section -->
+
+        <!-- Discover Section -->
+        <div class="page w-full mt-8 px-8 hidden" id="discover">
+    <!-- Top Recipes Header -->
     <div class="flex justify-between items-center mb-8">
-        <h1 class="text-green-800 text-6xl font-bold">Discover Recipes</h1>
-        <select id="categoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded" onchange="loadRecipes()">
+        <h2 class="text-green-800 text-6xl font-bold mx-auto">Top Recipes</h2>
+        <select id="topCategoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded" onchange="loadTopRecipes()">
             <option value="">Current Time</option>
             <option value="Breakfast">Breakfast</option>
             <option value="Lunch">Lunch</option>
@@ -55,230 +154,353 @@
         </select>
     </div>
 
-    <!-- Recipes container -->
-    <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
-</div>
 
- <!-- Add Recipe Section -->
- <div class="page w-full mt-8 px-8 hidden" id="addRecipe">
-    <h1 class="text-green-800 text-6xl font-bold mb-8">Add Your Recipe</h1>
-   
-    <!-- Form connects to the database -->
-    <form class="flex flex-col space-y-4" action="http://127.0.0.1/addRecipe.php" method="POST" enctype="multipart/form-data">
-        <label for="recipeName" class="text-green-800 text-lg">Recipe Name:</label>
-        <input type="text" id="recipeName" name="recipeName" class="border border-green-800 px-4 py-2" placeholder="Enter the recipe name" required />
-        <label for="description" class="text-green-800 text-lg">Description:</label>
-        <textarea id="description" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" required></textarea>
-        <label for="ingredients" class="text-green-800 text-lg">Ingredients:</label>
-        <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
-        <label for="procedure" class="text-green-800 text-lg">Procedure:</label>
-        <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
 
-        <!-- Category Dropdown -->
-        <label for="category" class="text-green-800 text-lg">Category:</label>
-        <select id="category" name="category" class="border border-green-800 px-4 py-2" required>
-            <option value="" disabled selected>Select a category</option>
-            <option value="Breakfast">Breakfast</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Snack">Snack</option>
-            <option value="Dinner">Dinner</option>
-        </select>
-        <label for="imageInput" class="text-green-800 text-lg">Upload Image:</label>
-        <input type="file" id="imageInput" name="imageInput" class="border border-green-800 px-4 py-2" accept="image/*" required />
-        <img id="imagePreview" alt="Image Preview" class="mt-4" />
-        <button type="submit" class="bg-yellow-500 text-green-800 text-lg font-bold py-2 px-4 rounded-full mt-4">Submit Recipe</button>
-        <input type="hidden" id="base64Image" name="base64Image">
-    </form>
-</div>
 
-<!-- JavaScript for handling image preview and base64 conversion -->
-<script>
-    document.getElementById('imageInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64String = e.target.result;
-            document.getElementById('imagePreview').src = base64String;
-            document.getElementById('base64Image').value = base64String; // Save Base64 string in hidden input
-        };
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
-
-<!-- Notifications Section -->
-<div class="page w-full mt-8 px-8 hidden" id="notifications">
-    <h1 class="text-green-800 text-6xl font-bold mb-8">Notifications</h1>
-    <div id="notificationsContent" class="notifications-container">
-        <!-- Placeholder for notifications -->
-        <p class="text-gray-600">You have no new notifications.</p>
-    </div>
-</div>
-
-<!-- User Profile Section -->
-<div class="page w-full mt-8 px-8 hidden" id="user">
-    <div class="flex justify-between items-center mb-8 relative">
-        <h1 class="text-green-800 text-6xl font-bold">User Profile</h1>
-        <!-- Settings button to open modal -->
-        <button class="bg-transparent border-none cursor-pointer" id="settingsButton">
-            <span class="large-icon" role="img" aria-label="Settings Icon">⚙️</span>
-        </button>
+    <!-- Top Recipes Container -->
+    <div id="topRecipesContainer" class="grid grid-cols-3 gap-8">
+        <!-- Top Recipes will be injected here -->
     </div>
 
-      <!-- Main Content Container -->
-      <div id="content" class="mt-8 px-8">
-        <div id="userProfile" class="flex justify-center items-center space-x-6">
-            <div class="relative text-center profile-container">
-                <span class="text-6xl">👤</span> <!-- User emoji -->
-                <h2 id="username" class="text-3xl mt-4">User Name</h2>
-                <div class="flex justify-center items-center space-x-2 mt-2">
-                    <span class="text-yellow-500 text-xl">🏅</span>
-                    <span class="text-gray-500">Top Chef Badge</span>
-                </div>
-                <div class="flex justify-start mt-6 space-x-4">
-                    <button class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500" onclick="showUserRecipes()">My Recipes</button>
-                    <button class="bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-500" onclick="showLikedRecipes()">Likes</button>
-                </div>
+
+            <!-- Discover Section -->
+            <div class="flex justify-between items-center mb-8 mt-7">
+                <h1 class="text-green-800 text-6xl font-bold mx-auto">Discover Recipes</h1>
+                <select id="categoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded">
+                    <option value="">Current Time</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Dinner">Dinner</option>
+                </select>
             </div>
+
+
+
+
+            <!-- Recipes container -->
+            <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
         </div>
 
-          <!-- Dynamic User Recipes and Liked Recipes Sections -->
-          <div id="userContent" class="mt-8 hidden">
-            <h2 class="text-3xl mb-6 text-green-700 font-bold" id="userSectionTitle"></h2>
-            <div id="userRecipes" class="grid grid-cols-2 gap-4">
-                <!-- Dynamically displayed user recipes or liked recipes will appear here -->
-            </div>
+
+
+
+    <!-- Recipe Modal for Top Recipes -->
+    <div id="topRecipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg max-w-lg w-full">
+            <button class="mt-2 bg-red-500 text-white px-4 py-2 rounded float-right" onclick="closeTopRecipeModal()">Close</button>
+            <h2 id="topRecipeTitle" class="text-green-800 text-4xl font-bold mb-4"></h2>
+            <img id="topRecipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
+            <p id="topRecipeDescription" class="text-lg text-gray-800 mb-4"></p>
+            <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+            <p id="topRecipeIngredients" class="text-lg text-gray-800 mb-4"></p>
+            <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+            <p id="topRecipeProcedure" class="text-lg text-gray-800"></p>
         </div>
     </div>
-</div>
 
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-lg w-96 relative">
-        <!-- Close button -->
-        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeSettings()">
-            &times; <!-- Close icon -->
-        </button>
-        <h2 class="text-green-800 text-4xl font-bold mb-6 text-center">Settings</h2>
-        <ul class="space-y-4">
-            <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="editProfile()">Edit Profile</button></li>
-            <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="showAboutUs()">About Us</button></li>
-            <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="logout()">Logout</button></li>
-        </ul>
-    </div>
-</div>
 
-<!-- About Us Modal -->
-<div id="aboutUsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
-        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeAboutUs()">
-            &times;
-        </button>
-        <h2 class="text-green-800 text-4xl font-bold mb-4 text-center">About Us</h2>
-        <p class="text-lg text-gray-800 mb-6">
-            I love you, I'm sorry. You were the best but you were the worst. As sick as it sounds, I love you first. A habit to kick, the age-old curse...
-            MAKING AMENDS, THIS SHT NEVER ENDS!!
-        </p>
-        <h3 class="text-xl font-bold text-green-800">Contact Information</h3>
-        <p class="text-gray-800 mb-2">Email: dadeymiluv@munchmate.com</p>
-        <p class="text-gray-800 mb-2">Phone: +1 (555) 123-4567</p>
-        <p class="text-gray-800">Address: 143 Cornelia street Ave, Food City, USA</p>
+        <!-- Recipe Modal for Discover Recipes -->
+        <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white p-8 rounded-lg max-w-lg w-full">
+                <button class="mt-2 bg-red-500 text-white px-4 py-2 rounded float-right" onclick="closeModal()">Close</button>
+                <h2 id="recipeTitle" class="text-green-800 text-4xl font-bold mb-4"></h2>
+                <img id="recipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
+                <p id="recipeDescription" class="text-lg text-gray-800 mb-4"></p>
+                <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+                <p id="recipeIngredients" class="text-lg text-gray-800 mb-4"></p>
+                <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+                <p id="recipeProcedure" class="text-lg text-gray-800"></p>
+            </div>
+        </div>
+    
+    <!-- Add Recipe Section -->
+    <div class="page w-full mt-8 px-8 hidden" id="addRecipe">
+        <h1 class="text-green-800 text-6xl font-bold mb-8">Add Your Recipe</h1>
+    
+        <!-- Form connects to the database -->
+        <form class="flex flex-col space-y-4" action="http://127.0.0.1/addRecipe.php" method="POST" enctype="multipart/form-data">
+            <label for="recipeName" class="text-green-800 text-lg">Recipe Name:</label>
+            <input type="text" id="recipeName" name="recipeName" class="border border-green-800 px-4 py-2" placeholder="Enter the recipe name" required />
+    
+            <label for="description" class="text-green-800 text-lg">Description:</label>
+            <textarea id="description" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" required></textarea>
+    
+            <label for="ingredients" class="text-green-800 text-lg">Ingredients:</label>
+            <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
+    
+            <label for="procedure" class="text-green-800 text-lg">Procedure:</label>
+            <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
+    
+            <!-- Category Dropdown -->
+            <label for="category" class="text-green-800 text-lg">Category:</label>
+            <select id="category" name="category" class="border border-green-800 px-4 py-2" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Snack">Snack</option>
+                <option value="Dinner">Dinner</option>
+            </select>
+    
+            <label for="imageInput" class="text-green-800 text-lg">Upload Image:</label>
+            <input type="file" id="imageInput" name="imageInput" class="border border-green-800 px-4 py-2" accept="image/*" required />
+    
+            <img id="imagePreview" alt="Image Preview" class="mt-4" />
+            <button type="submit" class="bg-yellow-500 text-green-800 text-lg font-bold py-2 px-4 rounded-full mt-4">Submit Recipe</button>
+            <input type="hidden" id="base64Image" name="base64Image">
+        </form>
+    
     </div>
-</div>
 
-<!-- Recipe Modal -->
-<div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-lg max-w-lg w-full">
-        <button class="mt-2 bg-red-500 text-white px-4 py-2 rounded float-right" onclick="closeModal()">Close</button>
-        <h2 id="recipeTitle" class="text-green-800 text-4xl font-bold mb-4"></h2>
-        <img id="recipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
-        <p id="recipeDescription" class="text-lg text-gray-800 mb-4"></p>
-        <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
-        <p id="recipeIngredients" class="text-lg text-gray-800 mb-4"></p>
-        <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
-        <p id="recipeProcedure" class="text-lg text-gray-800"></p>
-    </div>
-</div>
-<script>
-    // Fetch the logged-in user's name
-function fetchUsername() {
-    fetch('getUserInfo.php')  
-        .then(response => response.json())
-        .then(data => {
-            if (data.user_name) {
-                document.getElementById('username').textContent = data.user_name;
-            } else {
-                console.error(data.error); // Log the error message from getUserInfo.php
+
+
+    <!-- JavaScript for handling image preview and base64 conversion -->
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64String = e.target.result;
+                document.getElementById('imagePreview').src = base64String;
+                document.getElementById('base64Image').value = base64String; // Save Base64 string in hidden input
+            };
+            if (file) {
+                reader.readAsDataURL(file);
             }
-        })
-        .catch(error => console.error('Error fetching username:', error));
+        });
+    </script>
+
+
+    <!-- Notifications Section -->
+    <div class="page w-full mt-8 px-8 hidden" id="notifications">
+        <h1 class="text-green-800 text-6xl font-bold mb-8">Notifications</h1>
+        <div id="notificationsContent" class="notifications-container">
+            <!-- Notifications will be injected here dynamically -->
+        </div>
+    </div>
+
+
+
+
+    <!-- User Profile Section -->
+    <div class="page w-full mt-8 px-8 hidden" id="user">
+        <div class="flex justify-between items-center mb-8 relative">
+            <h1 class="text-green-800 text-6xl font-bold">User Profile</h1>
+            <!-- Settings button to open modal -->
+            <button class="bg-transparent border-none cursor-pointer" id="settingsButton">
+                <span class="large-icon" role="img" aria-label="Settings Icon">⚙️</span>
+            </button>
+        </div>
+
+
+
+
+        <!-- Main Content Container -->
+        <div id="content" class="mt-8 px-8">
+            <div id="userProfile" class="flex justify-center items-center space-x-6">
+                <div class="relative text-center profile-container">
+                    <span class="text-6xl">👤</span> <!-- User emoji -->
+                    <h2 id="username" class="text-3xl mt-4">User Name</h2>
+                    <div class="flex justify-center items-center space-x-2 mt-2">
+                        <span class="text-yellow-500 text-xl">🏅</span>
+                        <span class="text-gray-500">Top Chef Badge</span>
+                    </div>
+                    <div class="flex justify-start mt-6 space-x-4">
+                        <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-500" onclick="showUserRecipes()">My Recipes</button>
+                        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-500" onclick="showLikedRecipes()">Likes</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+    <!-- Dynamic User Recipes and Liked Recipes Sections -->
+    <div id="userContent" class="mt-8 hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-3xl text-green-700 font-bold" id="userSectionTitle"></h2>
+        </div>
+        <div id="userRecipes" class="grid grid-cols-2 gap-4">
+            <!-- Dynamically displayed user recipes or liked recipes will appear here -->
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+
+
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg w-96 relative">
+            <!-- Close button -->
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeSettings()">
+                &times; <!-- Close icon -->
+            </button>
+            <h2 class="text-green-800 text-4xl font-bold mb-6 text-center">Settings</h2>
+            <ul class="space-y-4">
+                <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="editProfile()">Edit Profile</button></li>
+                <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="showAboutUs()">About Us</button></li>
+                <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="logout()">Logout</button></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    <!-- About Us Modal -->
+    <div id="aboutUsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeAboutUs()">
+                &times;
+            </button>
+            <h2 class="text-green-800 text-4xl font-bold mb-4 text-center">About Us</h2>
+            <p class="text-lg text-gray-800 mb-6">
+                Welcome to MunchMate—your go-to recipe app for sharing, discovering, and connecting through food! Whether you’re a seasoned chef or a kitchen newbie, MunchMate lets you upload your favorite recipes, explore exciting new dishes, and connect with a community of food lovers. Share your creations, swap cooking tips, and build your personal recipe collection. With MunchMate, every meal is an adventure waiting to happen! Dive in, cook up, and let’s make every bite memorable together.
+
+
+            </p>
+            <h3 class="text-xl font-bold text-green-800">Contact Information</h3>
+            <p class="text-gray-800 mb-2">Email: munchmate@gmail.com</p>
+            <p class="text-gray-800 mb-2">Phone: +1 (555) 123-4567</p>
+            <p class="text-gray-800">Address: 143 Cornelia street Ave, Food City, USA</p>
+        </div>
+    </div>
+
+
+    <!-- Recipe Modal -->
+    <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-8 rounded-lg max-w-lg w-full relative z-60">
+            <!-- Close button with proper positioning and z-index -->
+            <button class="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded z-70 close-modal-button" onclick="closeModal()">Close</button>
+            <h2 id="recipeTitle" class="text-green-800 text-4xl font-bold mb-4"></h2>
+            <img id="recipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded hidden">
+            <p id="recipeDescription" class="text-lg text-gray-800 mb-4"></p>
+            <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+            <p id="recipeIngredients" class="text-lg text-gray-800 mb-4"></p>
+            <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+            <p id="recipeProcedure" class="text-lg text-gray-800"></p>
+        </div>
+    </div>
+
+    <script>
+        // Fetch the logged-in user's name
+    function fetchUsername() {
+        fetch('getUserInfo.php')  
+            .then(response => response.json())
+            .then(data => {
+                if (data.user_name) {
+                    document.getElementById('username').textContent = data.user_name;
+                } else {
+                    console.error(data.error); // Log the error message from getUserInfo.php
+                }
+            })
+            .catch(error => console.error('Error fetching username:', error));
+    }
+
+    // Call fetchUsername when the page loads
+    window.onload = fetchUsername;
+
+        // Function to handle logout
+        function logout() {
+        window.location.href = 'logout.php';
+    }
+
+
+        // Toggle settings modal
+        document.getElementById('settingsButton').addEventListener('click', function() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+        });
+
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+        function showAboutUs() {
+            document.getElementById('settingsModal').classList.add('hidden');
+            document.getElementById('aboutUsModal').classList.remove('hidden');
+        }
+        function closeAboutUs() {
+            document.getElementById('aboutUsModal').classList.add('hidden');
+        }
+        function showUserRecipes() {
+            document.getElementById('userSectionTitle').innerText = "My Recipes";
+            document.getElementById('userContent').classList.remove('hidden');
+        }
+        function showLikedRecipes() {
+            document.getElementById('userSectionTitle').innerText = "Liked Recipes";
+            document.getElementById('userContent').classList.remove('hidden');
+        }
+        // Function to close the recipe modal
+        function closeModal() {
+            const recipeModal = document.getElementById('recipeModal');
+            if (recipeModal) {
+                recipeModal.classList.add('hidden');
+            }
+        }
+
+// Unified Function to show a specific page by its ID
+function showPage(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+    
+    // Show the selected page
+    const pageElement = document.getElementById(pageId);
+    if (pageElement) {
+        pageElement.classList.remove('hidden');
+    }
+
+    // Highlight the active tab
+    document.querySelectorAll("nav a").forEach(tab => tab.classList.remove("bg-yellow-400", "text-white"));
+    document.getElementById(`${pageId}Tab`).classList.add("bg-yellow-400", "text-white");
+
+    // Call loadNotifications if the Notifications page is shown
+    if (pageId === 'notifications') {
+        console.log("Loading notifications...");
+        loadNotifications();
+    }
 }
 
-// Call fetchUsername when the page loads
-window.onload = fetchUsername;
-
-    // Toggle settings modal
-    document.getElementById('settingsButton').addEventListener('click', function() {
-        document.getElementById('settingsModal').classList.remove('hidden');
-    });
-
-    function closeSettings() {
-        document.getElementById('settingsModal').classList.add('hidden');
-    }
-
-    function showAboutUs() {
-        document.getElementById('settingsModal').classList.add('hidden');
-        document.getElementById('aboutUsModal').classList.remove('hidden');
-    }
-
-    function closeAboutUs() {
-        document.getElementById('aboutUsModal').classList.add('hidden');
-    }
-
-    function showUserRecipes() {
-        document.getElementById('userSectionTitle').innerText = "My Recipes";
-        document.getElementById('userContent').classList.remove('hidden');
-    }
-
-    function showLikedRecipes() {
-        document.getElementById('userSectionTitle').innerText = "Liked Recipes";
-        document.getElementById('userContent').classList.remove('hidden');
-    }
-
-    function closeModal() {
-        document.getElementById('recipeModal').classList.add('hidden');
-    }
-
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-        document.getElementById(pageId).classList.remove('hidden');
-    }
-</script>
+    </script>
 
 
-<!-- JavaScript -->
-<script>
-    // Cookie Helper Functions
-    function getLikedRecipes() {
-        const likedRecipes = document.cookie.replace(/(?:(?:^|.*;\s*)likedRecipes\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-        return likedRecipes ? JSON.parse(likedRecipes) : [];
-    }
+
+    <!-- JavaScript -->
+    <script>
+        // Cookie Helper Functions
+        function getLikedRecipes() {
+            const likedRecipes = document.cookie.replace(/(?:(?:^|.*;\s*)likedRecipes\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            return likedRecipes ? JSON.parse(likedRecipes) : [];
+        }
     
-    function saveLikedRecipes(likedRecipes) {
-        document.cookie = "likedRecipes=" + JSON.stringify(likedRecipes) + "; path=/; max-age=" + (60 * 60 * 24 * 30);
-    }
+        function saveLikedRecipes(likedRecipes) {
+            document.cookie = "likedRecipes=" + JSON.stringify(likedRecipes) + "; path=/; max-age=" + (60 * 60 * 24 * 30);
+        }
 
-    // Get current category based on time
-    function getCurrentCategory() {
-        const hours = new Date().getHours();
-        if (hours >= 4 && hours < 11) return 'Breakfast';
-        if (hours >= 11 && hours < 16) return 'Lunch';
-        if (hours >= 16 && hours < 20) return 'Snack';
-        return 'Dinner';
-    }
 
-    // Load recipes based on category and likes
+
+
+            // Function to check if the user is logged in
+            function isUserLoggedIn() {
+            return !!document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_id='));
+        }
+
+
+
+
+        // Get current category based on time
+        function getCurrentCategory() {
+            const hours = new Date().getHours();
+            if (hours >= 4 && hours < 11) return 'Breakfast';
+            if (hours >= 11 && hours < 16) return 'Lunch';
+            if (hours >= 16 && hours < 20) return 'Snack';
+            return 'Dinner';
+        }
+
+
+
+
     function loadRecipes() {
         const selectedCategory = document.getElementById('categoryFilter').value || getCurrentCategory();
         fetch('http://127.0.0.1/getRecipe.php')
@@ -287,20 +509,55 @@ window.onload = fetchUsername;
                 const recipesContainer = document.getElementById('recipesContainer');
                 recipesContainer.innerHTML = '';
                 const likedRecipes = getLikedRecipes();
+                const isLoggedIn = isUserLoggedIn();
+
+
+
 
                 const filteredData = data.filter(recipe => recipe.category === selectedCategory);
                 filteredData.forEach(recipe => {
                     const isLiked = likedRecipes.includes(recipe.recipeId);
                     const recipeCard = `
-                        <div class="recipe-card border border-green-800 p-4 text-center">
-                            <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img}')" />
-                            <h2 class="text-green-800 text-xl font-bold mt-4">${recipe.name}</h2>
-                            <button class="like-button bg-green-800 text-white px-4 py-2 rounded mt-2" data-recipe-id="${recipe.recipeId}" onclick="toggleLike(${recipe.recipeId})">${isLiked ? 'Unlike' : 'Like'}</button>
-                            <span class="like-count text-green-800 mt-2" id="like-count-${recipe.recipeId}">${recipe.likeCount} Likes</span>
-                        </div>`;
+                        <!-- Recipe Card -->
+    <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800">
+        <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img}')"/>
+        <h2 class="text-green-800 text-xl font-bold mt-4">${recipe.name}</h2>
+        <div class="flex justify-center items-center space-x-4 mt-2">
+            <button class="like-button bg-green-800 text-white px-4 py-2 rounded" data-recipe-id="${recipe.recipeId}" onclick="toggleLike(${recipe.recipeId})">
+                ${isLiked ? 'Unlike' : 'Like'}
+            </button>
+            <span class="like-count text-green-800 mt-2" id="like-count-${recipe.recipeId}">${recipe.likeCount} Likes</span>
+            <!-- Comment Section -->
+            <button class="comment-btn text-blue-500 text-lg" onclick="openCommentModal('${recipe.recipeId}')">💬 Comment</button>
+        </div>
+    </div>
+
+
+
+
+    <!-- Comment Modal for each recipe -->
+    <div id="commentModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeCommentModal('${recipe.recipeId}')">X</button>
+            <h3 class="text-green-800 text-3xl font-bold mb-4">Comments for ${recipe.name}</h3>
+        
+            <!-- Existing comments will be displayed here -->
+            <div id="all-comments-${recipe.recipeId}" class="mt-4">
+                <!-- All comments will be appended here -->
+            </div>
+        
+            <!-- Comment input -->
+            <div id="commentInput-${recipe.recipeId}" class="mt-4">
+                <textarea placeholder="Add a comment" class="border border-green-800 w-full px-4 py-2"></textarea>
+                <button class="bg-yellow-500 text-green-800 text-lg font-bold py-2 px-4 rounded-full mt-2 mx-auto block" onclick="addComment(${recipe.recipeId})">Submit</button>
+            </div>
+        </div>
+    </div>
+
+
+                    `;
                     recipesContainer.innerHTML += recipeCard;
                 });
-
                 if (!filteredData.length) {
                     recipesContainer.innerHTML = `<p class="text-red-600">No recipes available for ${selectedCategory}.</p>`;
                 }
@@ -308,80 +565,427 @@ window.onload = fetchUsername;
             .catch(error => console.error('Error fetching recipes:', error));
     }
 
-    // Toggle like/unlike functionality
-    function toggleLike(recipeId) {
-        const likedRecipes = getLikedRecipes();
-        const isLiked = likedRecipes.includes(recipeId);
-        const action = isLiked ? 'unlike' : 'like';
+// Toggle like/unlike functionality
+function toggleLike(recipeId) {
+    const likedRecipes = getLikedRecipes();
+    const isLiked = likedRecipes.includes(recipeId);
+    const action = isLiked ? 'unlike' : 'like';
 
-        // Log the action being sent
-        console.log(`Sending action: ${action} for recipeId: ${recipeId}`);
+    // Log the action being sent
+    console.log(`Sending action: ${action} for recipeId: ${recipeId}`);
 
-        // Optimistically update UI state
-        const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
-        const likeCountElement = document.getElementById(`like-count-${recipeId}`);
-        let currentLikeCount = parseInt(likeCountElement.innerText) || 0;
-        likeButton.innerText = isLiked ? 'Like' : 'Unlike';
-        likeCountElement.innerText = `${isLiked ? currentLikeCount - 1 : currentLikeCount + 1} Likes`;
+    // Optimistically update UI state
+    const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
+    const likeCountElement = document.getElementById(`like-count-${recipeId}`);
+    let currentLikeCount = parseInt(likeCountElement.innerText) || 0;
 
-        // Update likedRecipes cookie
-        if (isLiked) {
-            likedRecipes.splice(likedRecipes.indexOf(recipeId), 1);
+    // Toggle button text and count optimistically
+    likeButton.innerText = isLiked ? 'Like' : 'Unlike';
+    likeCountElement.innerText = `${isLiked ? currentLikeCount - 1 : currentLikeCount + 1} Likes`;
+
+    // Update likedRecipes cookie
+    if (isLiked) {
+        likedRecipes.splice(likedRecipes.indexOf(recipeId), 1);
+    } else {
+        likedRecipes.push(recipeId);
+    }
+    saveLikedRecipes(likedRecipes);
+
+    // Send request to server
+    fetch('http://127.0.0.1/likeRecipe.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, recipeId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            // Revert the optimistic update on failure
+            likeButton.innerText = isLiked ? 'Unlike' : 'Like';
+            likeCountElement.innerText = `${currentLikeCount} Likes`; // Restore original count
+            alert(`Error: ${data.message}`);
         } else {
-            likedRecipes.push(recipeId);
+            // Update UI with the confirmed like count from the server
+            likeCountElement.innerText = `${data.likeCount} Likes`;
         }
-        saveLikedRecipes(likedRecipes);
+    })
+    .catch(error => {
+        console.error('Error toggling like:', error);
+        // Revert optimistic update on error
+        likeButton.innerText = isLiked ? 'Unlike' : 'Like';
+        likeCountElement.innerText = `${currentLikeCount} Likes`;
+        alert('There was an error. Please try again.');
+    });
+}
 
-        // Send request to server
-        fetch('http://127.0.0.1/likeRecipe.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action, recipeId })
-        })
+
+
+
+
+    // Function to open the comment modal for a specific recipe
+    function openCommentModal(recipeId) {
+        const modal = document.getElementById(`commentModal-${recipeId}`);
+        if (modal) {
+            modal.classList.remove('hidden'); // Make the modal visible
+            loadComments(recipeId); // Load and display existing comments
+        } else {
+            console.error(`Could not find modal for recipeId: ${recipeId}`);
+        }
+    }
+
+
+
+
+    // Function to close the comment modal
+    function closeCommentModal(recipeId) {
+        const modal = document.getElementById(`commentModal-${recipeId}`);
+        modal.classList.add('hidden'); // Hide the modal
+    }
+
+
+
+
+    // Function to submit a new comment
+    function addComment(recipeId) {
+        const commentInput = document.querySelector(`#commentInput-${recipeId} textarea`);
+        const comment = commentInput.value.trim();
+
+
+
+
+        if (comment) {
+            fetch('http://127.0.0.1/addComment.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipeId, comment })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const allCommentsDiv = document.getElementById(`all-comments-${recipeId}`);
+                    const newComment = document.createElement('div');
+                    newComment.classList.add('comment');
+                    newComment.innerText = comment; // Display the new comment
+                    allCommentsDiv.appendChild(newComment);
+
+
+
+
+                    // Clear the input field
+                    commentInput.value = '';
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding comment:', error);
+            });
+        } else {
+            alert("Please enter a comment before submitting.");
+        }
+    }
+
+
+    function loadComments(recipeId) {
+        fetch(`http://127.0.0.1/getRecipe.php?recipeId=${recipeId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Find the recipe with the given recipeId in the returned data
+                const recipe = data.find(r => parseInt(r.recipeId) === parseInt(recipeId));
+                const commentsContainer = document.getElementById(`all-comments-${recipeId}`);
+                commentsContainer.innerHTML = ''; // Clear any existing comments
+
+
+                if (recipe && recipe.comments && recipe.comments.length > 0) {
+                    // Split the comments string by '||' and iterate over each comment
+                    recipe.comments.forEach(comment => {
+                        // Create a div for each comment
+                        const commentElement = document.createElement('div');
+                        commentElement.classList.add('comment');
+                        commentElement.textContent = comment; // Each comment is already formatted as "username: comment"
+                        commentsContainer.appendChild(commentElement);
+                    });
+                } else {
+                    const noCommentsMessage = document.createElement('p');
+                    noCommentsMessage.textContent = "No comments yet.";
+                    commentsContainer.appendChild(noCommentsMessage);
+                }
+            })
+            .catch(error => console.error('Error loading comments:', error));
+    }
+
+
+
+
+
+
+    // Add Comment function (if user wants to add a new comment)
+    function addComment(recipeId) {
+        const commentInput = document.querySelector(`#commentInput-${recipeId} textarea`);
+        const comment = commentInput.value.trim();
+
+
+
+
+        if (comment) {
+            fetch('http://127.0.0.1/addComment.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipeId, comment })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // After adding a new comment, reload comments
+                    loadComments(recipeId);
+                    commentInput.value = ''; // Clear the input field
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => console.error('Error adding comment:', error));
+        } else {
+            alert("Please enter a comment before submitting.");
+        }
+    }
+
+
+
+
+    // Load top recipes based on the selected category
+    function loadTopRecipes() {
+        const selectedCategory = document.getElementById('topCategoryFilter').value || getCurrentCategory();
+    
+        fetch(`http://127.0.0.1/getRecipe.php?top=true&category=${selectedCategory}`)
+            .then(response => response.json())
+            .then(data => {
+                const topRecipesContainer = document.getElementById('topRecipesContainer');
+                topRecipesContainer.innerHTML = ''; // Clear existing content
+
+
+
+
+                // Loop through each category and its top recipes
+                for (const [category, recipes] of Object.entries(data)) {
+                    const filteredTopRecipes = recipes.filter(recipe => recipe.likeCount > 0);  // Ensure only liked recipes are shown
+                
+                    // Show only the top 5 recipes from the filtered list
+                    filteredTopRecipes.slice(0, 5).forEach(recipe => {
+                        const recipeCard = `
+                            <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800"
+                                onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img}')">
+                                <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" />
+                                <h3 class="text-green-800 text-xl font-bold mt-2">${recipe.name}</h3>
+                                <span class="like-count text-green-800 mt-2">${recipe.likeCount} Likes</span>
+                            </div>
+                        `;
+                        topRecipesContainer.innerHTML += recipeCard; // Add recipe card to the container
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching top recipes:', error));
+    }
+
+
+
+
+    // Function to get current category based on time
+    function getCurrentCategory() {
+        const hours = new Date().getHours();
+        if (hours >= 4 && hours < 11) return 'Breakfast';
+        if (hours >= 11 && hours < 16) return 'Lunch';
+        if (hours >= 16 && hours < 20) return 'Snack';
+        return 'Dinner';
+    }
+
+  // Function to load notifications
+function loadNotifications() {
+    fetch('getNotifications.php')
         .then(response => response.json())
         .then(data => {
-            if (!data.success) {
-                // Revert the optimistic update on failure
-                likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-                likeCountElement.innerText = `${currentLikeCount} Likes`; // Restore original count
-                alert(`Error: ${data.message}`);
+            const notificationsContainer = document.getElementById('notificationsContent');
+            notificationsContainer.innerHTML = ''; // Clear existing notifications
+            
+            console.log("Fetched Notifications:", data); // Log fetched data
+
+            if (data.length === 0) {
+                notificationsContainer.innerHTML = '<p class="text-gray-600">You have no new notifications.</p>';
             } else {
-                // Refresh recipes to ensure accurate like count
-                loadRecipes();
+                data.forEach(notification => {
+                    const notificationClass = notification.notification_status === 1 ? 'read' : 'unread';
+                    const notificationHTML = `
+                        <div class="notification ${notificationClass} p-4 mb-4 rounded-lg shadow-md flex justify-between items-center bg-white">
+                            <span>${notification.message}</span>
+                            <button class="mark-read-button bg-green-500 text-white px-4 py-2 rounded" onclick="markNotificationAsRead(${notification.notificationId})">
+                                Mark as Read
+                            </button>
+                        </div>
+                    `;
+                    notificationsContainer.innerHTML += notificationHTML;
+                });
             }
         })
-        .catch(error => {
-            console.error('Error toggling like:', error);
-            // Revert optimistic update on error
-            likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-            likeCountElement.innerText = `${currentLikeCount} Likes`;
-        });
-    }
-    
-    // Display recipe details in modal
-    function showRecipe(title, description, ingredients, procedure, imageSrc) {
-        document.getElementById('recipeTitle').innerText = title;
-        document.getElementById('recipeDescription').innerText = description;
-        document.getElementById('recipeImage').src = imageSrc;
-        document.getElementById('recipeIngredients').innerHTML = ingredients;
-        document.getElementById('recipeProcedure').innerHTML = procedure;
-        document.getElementById('recipeModal').classList.remove('hidden');
-    }
-    function closeModal() { document.getElementById('recipeModal').classList.add('hidden'); }
+        .catch(error => console.error('Error loading notifications:', error));
+}
 
-    // Initialize page
+function markNotificationAsRead(notificationId) {
+    fetch('markNotifAsRead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notificationId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadNotifications(); // Reload notifications to update the status
+        } else {
+            console.error('Error:', data.message);
+        }
+    })
+    .catch(error => console.error('Error marking notification as read:', error));
+}
+
+
+    // Function to show user's recipes as a list without images
+    function showUserRecipes() {
+        fetch('getUserRecipe.php') // Fetch user-created recipes
+            .then(response => response.json())
+            .then(data => {
+                const userRecipesContainer = document.getElementById('userRecipes');
+                userRecipesContainer.innerHTML = ''; // Clear existing content
+
+                if (data.error) {
+                    userRecipesContainer.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+                    return;
+                }
+
+                // Display each recipe as a clickable list item
+                if (data.length > 0) {
+                    data.forEach(recipe => {
+                        const recipeItem = `
+                            <div class="recipe-item cursor-pointer text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2"
+                                onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img || 'null'}')">
+                                ${recipe.name} - ${recipe.category}
+                            </div>
+                        `;
+                        userRecipesContainer.innerHTML += recipeItem;
+                    });
+                } else {
+                    userRecipesContainer.innerHTML = `<p class="text-gray-600">You have not posted any recipes yet.</p>`;
+                }
+
+                // Show the user content section and update the title
+                document.getElementById('userContent').classList.remove('hidden');
+                document.getElementById('userSectionTitle').innerText = "My Recipes";
+            })
+            .catch(error => console.error('Error fetching user recipes:', error));
+    }
+
+    // Function to show liked recipes of the user as a list without images
+    function showLikedRecipes() {
+        fetch('getLikedRecipes.php') // Fetch liked recipes
+            .then(response => response.json())
+            .then(data => {
+                const likedRecipesContainer = document.getElementById('userRecipes');
+                likedRecipesContainer.innerHTML = ''; // Clear existing content
+
+                if (data.error) {
+                    likedRecipesContainer.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+                    return;
+                }
+
+                // Display each liked recipe as a clickable list item
+                if (data.length > 0) {
+                    data.forEach(recipe => {
+                        const recipeItem = `
+                            <div class="recipe-item cursor-pointer text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2"
+                                onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img || 'null'}')">
+                                ${recipe.name} - ${recipe.category}
+                            </div>
+                        `;
+                        likedRecipesContainer.innerHTML += recipeItem;
+                    });
+                } else {
+                    likedRecipesContainer.innerHTML = `<p class="text-gray-600">You have not liked any recipes yet.</p>`;
+                }
+
+                // Show the user content section and update the title
+                document.getElementById('userContent').classList.remove('hidden');
+                document.getElementById('userSectionTitle').innerText = "Liked Recipes";
+            })
+            .catch(error => console.error('Error fetching liked recipes:', error));
+    }
+    function showRecipe(name, description, ingredients, procedure, img) {
+    document.getElementById('recipeTitle').innerText = name;
+    document.getElementById('recipeDescription').innerText = description;
+    document.getElementById('recipeIngredients').innerText = ingredients;
+    document.getElementById('recipeProcedure').innerText = procedure;
+
+    const recipeImage = document.getElementById('recipeImage');
+    
+    // Check if img has a valid URL or base64 data
+    if (img && img !== 'null') {
+        recipeImage.src = img; // Set provided image source
+        recipeImage.classList.remove('hidden'); // Show the image
+    } else {
+        recipeImage.src = 'default-image.png'; // Set a default image if none is provided
+        recipeImage.classList.remove('hidden'); // Ensure the image element is visible
+    }
+
+    // Show the modal
+    document.getElementById('recipeModal').classList.remove('hidden');
+}
+
+
+    // Function to close the recipe modal
+    function closeModal() {
+        const modal = document.getElementById('recipeModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    // Initialize event listeners once DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
+        // Event listeners to close modal on button click or outside modal content
+        document.querySelectorAll('.modal .close-modal-button').forEach(button => {
+            button.addEventListener('click', () => closeModal());
+        });
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', event => {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+
         document.getElementById('categoryFilter').addEventListener('change', loadRecipes);
+
+        // Load initial data
+        fetchUsername();
         loadRecipes();
         showPage('discover');
     });
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-        document.getElementById(pageId).classList.remove('hidden');
-        document.querySelectorAll("nav a").forEach(tab => tab.classList.remove("bg-yellow-400", "text-white"));
-        document.getElementById(`${pageId}Tab`).classList.add("bg-yellow-400", "text-white");
-    }
-</script>
 
-</body>
-</html>
+    // Load user data and recipes when the page loads
+    window.onload = function () {
+        fetchUsername();
+        showUserRecipes();
+        loadTopRecipes();
+        loadRecipes();
+        showPage('discover');
+    };
+
+    // Event listeners for My Recipes and Liked Recipes buttons
+    document.getElementById('myRecipesButton').addEventListener('click', showUserRecipes);
+    document.getElementById('likedRecipesButton').addEventListener('click', showLikedRecipes);
+
+
+        // Load notifications on page load
+        document.addEventListener('DOMContentLoaded', loadNotifications);
+
+    </script>
+
+    </body>
+    </html>
