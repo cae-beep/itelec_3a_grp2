@@ -55,6 +55,14 @@
                 box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
             }
 
+            .unread {
+    background-color: #f9f9f9; /* Light gray background for unread notifications */
+    font-weight: bold; /* Bold text for unread notifications */
+}
+
+.highlight {
+    border-left: 5px solid #4CAF50; /* Add a green border for better visual indication */
+}
 
 
 
@@ -798,27 +806,26 @@ function toggleLike(recipeId) {
         return 'Dinner';
     }
 
-  // Function to load notifications
+ // Function to load notifications
 function loadNotifications() {
     fetch('getNotifications.php')
         .then(response => response.json())
         .then(data => {
+            console.log(data); // Log the response to ensure comments are included properly
+
             const notificationsContainer = document.getElementById('notificationsContent');
             notificationsContainer.innerHTML = ''; // Clear existing notifications
-            
-            console.log("Fetched Notifications:", data); // Log fetched data
 
             if (data.length === 0) {
                 notificationsContainer.innerHTML = '<p class="text-gray-600">You have no new notifications.</p>';
             } else {
                 data.forEach(notification => {
-                    const notificationClass = notification.notification_status === 1 ? 'read' : 'unread';
+                    // Determine the CSS class based on the read status
+                    const notificationClass = notification.notification_status === 1 ? 'read' : 'unread highlight';
                     const notificationHTML = `
-                        <div class="notification ${notificationClass} p-4 mb-4 rounded-lg shadow-md flex justify-between items-center bg-white">
+                        <div class="notification ${notificationClass} p-4 mb-4 rounded-lg shadow-md cursor-pointer bg-white hover:bg-green-50"
+                             onclick="markNotificationAsRead(${notification.notificationId})">
                             <span>${notification.message}</span>
-                            <button class="mark-read-button bg-green-500 text-white px-4 py-2 rounded" onclick="markNotificationAsRead(${notification.notificationId})">
-                                Mark as Read
-                            </button>
                         </div>
                     `;
                     notificationsContainer.innerHTML += notificationHTML;
@@ -828,6 +835,7 @@ function loadNotifications() {
         .catch(error => console.error('Error loading notifications:', error));
 }
 
+// Function to mark a notification as read
 function markNotificationAsRead(notificationId) {
     fetch('markNotifAsRead.php', {
         method: 'POST',
@@ -844,6 +852,8 @@ function markNotificationAsRead(notificationId) {
     })
     .catch(error => console.error('Error marking notification as read:', error));
 }
+
+
 
 
     // Function to show user's recipes as a list without images

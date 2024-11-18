@@ -7,12 +7,13 @@ $servername = "127.0.0.1";
 $username = "root";
 $password = "secretsecret4";
 $dbname = "schema_user";
+$port = 3306;
 
 $response = [];
 
 try {
     // Create database connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname, $port);
     if ($conn->connect_error) {
         throw new Exception('Database connection failed: ' . $conn->connect_error);
     }
@@ -25,10 +26,9 @@ try {
     }
 
     // Prepare the SQL statement to fetch recipes created by the logged-in user
-    $query = "
-        SELECT recipeId, name, `desc`, ingredients, `procedure`, category, img
-        FROM tbl_recipe
-        WHERE user_Id = ?";
+    $query = "SELECT recipeId, name, `desc`, ingredients, `procedure`, category, img
+              FROM tbl_recipe
+            WHERE user_Id = ?";
               
     $stmt = $conn->prepare($query);
     if (!$stmt) {
