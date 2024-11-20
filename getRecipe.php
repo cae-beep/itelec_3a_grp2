@@ -99,31 +99,31 @@ if (isset($_GET['top'])) {
     $categoryFilter = $_GET['category'] ?? null;
 
     $sql = "
-        SELECT 
-            r.category, 
-            r.recipeId, 
-            r.name, 
+        SELECT
+            r.category,
+            r.recipeId,
+            r.name,
             r.desc,
             r.ingredients,
             r.procedure,
             r.img,
             COUNT(l.recipeId) AS likeCount
-        FROM 
+        FROM
             tbl_recipe r
-        LEFT JOIN 
+        LEFT JOIN
             tbl_likes l ON r.recipeId = l.recipeId
     ";
 
     if ($categoryFilter) {
-        $sql .= " WHERE r.category = ?"; 
+        $sql .= " WHERE r.category = ?";
     }
 
     $sql .= "
-        GROUP BY 
+        GROUP BY
             r.category, r.recipeId
-        HAVING 
+        HAVING
             likeCount > 0
-        ORDER BY 
+        ORDER BY
             r.category, likeCount DESC
     ";
 
@@ -146,15 +146,16 @@ if (isset($_GET['top'])) {
     exit;
 }
 
-// Fetch Regular Recipes
+
+// Fetch Regular Recipes 
 $sql = "
-    SELECT 
-        r.recipeId, 
-        r.name, 
-        r.desc, 
-        r.ingredients, 
-        r.procedure, 
-        r.category, 
+    SELECT
+        r.recipeId,
+        r.name,
+        r.desc,
+        r.ingredients,
+        r.procedure,
+        r.category,
         r.img,
         COALESCE(l.likeCount, 0) AS likeCount,
         CASE WHEN ul.user_Id IS NOT NULL THEN TRUE ELSE FALSE END AS userLiked,
@@ -164,13 +165,13 @@ $sql = "
             LEFT JOIN tbl_users u ON c.user_Id = u.user_id
             WHERE c.recipeId = r.recipeId
         ) AS comments
-    FROM 
+    FROM
         tbl_recipe r
-    LEFT JOIN 
-        (SELECT recipeId, COUNT(*) AS likeCount FROM tbl_likes GROUP BY recipeId) l 
-    ON 
+    LEFT JOIN
+        (SELECT recipeId, COUNT(*) AS likeCount FROM tbl_likes GROUP BY recipeId) l
+    ON
         r.recipeId = l.recipeId
-    LEFT JOIN 
+    LEFT JOIN
         tbl_likes ul ON r.recipeId = ul.recipeId AND ul.user_Id = ?
 ";
 
@@ -190,4 +191,5 @@ echo json_encode($recipes);
 
 $stmt->close();
 $conn->close();
+
 ?>
