@@ -182,10 +182,18 @@ $result = $stmt->get_result();
 
 $recipes = [];
 while ($row = $result->fetch_assoc()) {
-    $row['userLiked'] = (bool)$row['userLiked'];
-    $row['comments'] = $row['comments'] ? explode('||', $row['comments']) : [];
+    $row['name'] = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') ?? 'No title available';
+    $row['desc'] = htmlspecialchars($row['desc'], ENT_QUOTES, 'UTF-8') ?? 'No description available';
+    $row['ingredients'] = htmlspecialchars($row['ingredients'], ENT_QUOTES, 'UTF-8') ?? 'No ingredients listed';
+    $row['procedure'] = htmlspecialchars($row['procedure'], ENT_QUOTES, 'UTF-8') ?? 'No procedure provided';
+    $row['category'] = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8') ?? 'Not categorized';
+    $row['img'] = $row['img'] ?? 'default-image.png'; // Default image path
+    $row['userLiked'] = (bool)($row['userLiked'] ?? false);
+    $row['comments'] = $row['comments'] ? explode('||', htmlspecialchars($row['comments'], ENT_QUOTES, 'UTF-8')) : [];
+
     $recipes[] = $row;
 }
+
 
 echo json_encode($recipes);
 
