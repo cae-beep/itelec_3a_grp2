@@ -276,3 +276,7 @@ text-align: center;
 .comment-icon {
   color: #4d6d42;
 }
+.error-message {
+  color: red;
+  font-size: 14px; 
+}

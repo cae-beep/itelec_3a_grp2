@@ -7,9 +7,9 @@ session_start();
 
 // Database connection parameters
 $servername = "127.0.0.1";
-$db_username = "root"; // MySQL username
-$db_password = "secretsecret4"; // MySQL password
-$dbname = "schema_user"; // Your database name
+$db_username = "root"; 
+$db_password = "secretsecret4"; 
+$dbname = "schema_user"; 
 $port = 3306;
 
 // Create a connection to the database
@@ -25,46 +25,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = isset($_POST['action']) ? $_POST['action'] : '';
 
     // Login functionality
-if ($action == "login") {
-    $email = $conn->real_escape_string($_POST['email']);
-    $raw_password = trim($_POST['password']);
+    if ($action == "login") {
+        $email = $conn->real_escape_string($_POST['email']);
+        $raw_password = trim($_POST['password']);
 
-    // Prepare and execute the SQL statement to get the user password, username, and user ID
-    $sql = "SELECT user_username, user_password, user_id FROM tbl_users WHERE user_email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        // Prepare and execute the SQL statement to get the user password, username, and user ID
+        $sql = "SELECT user_username, user_password, user_id FROM tbl_users WHERE user_email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    // Check if the user exists
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $stored_password = $row['user_password'];
+        // Check if the user exists
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $stored_password = $row['user_password'];
 
-        // Verify the hashed password
-        if (password_verify($raw_password, $stored_password)) {
-            // Store both user ID, email, and username in session
-            $_SESSION['user_id'] = $row['user_id']; // Store the user ID
-            $_SESSION['email'] = $email;
-            $_SESSION['username'] = $row['user_username']; // Store username for later use
-            header("Location: http://127.0.0.1/home.html");
-            exit();
+            // Verify the hashed password
+            if (password_verify($raw_password, $stored_password)) {
+                // Store both user ID, email, and username in session
+                $_SESSION['user_id'] = $row['user_id']; // Store the user ID
+                $_SESSION['email'] = $email;
+                $_SESSION['username'] = $row['user_username']; // Store username for later use
+                header("Location: http://127.0.0.1/home.html");
+                exit();
+            } else {
+                echo "<script>alert('Invalid email or password.'); window.location.href = 'index.html';</script>";
+            }
         } else {
-            echo "Invalid email or password.";
+            echo "<script>alert('No user found with this email.'); window.location.href = 'index.html';</script>";
         }
-    } else {
-        echo "No user found with this email.";
+
+        $stmt->close();
     }
 
-    $stmt->close();
-}
-   
     // Signup functionality
     elseif ($action == "signup") {
         $username = $conn->real_escape_string($_POST['username']);
         $email = $conn->real_escape_string($_POST['email']);
         $raw_password = trim($_POST['password']);
-       
+
+        // Validate the password
+        if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]).{8,}$/', $raw_password)) {
+            echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, lowercase letter, number, and special character.'); window.location.href = 'index.html#tab-2';</script>";
+            exit();
+        }
+
         // Hash the password
         $hashed_password = password_hash($raw_password, PASSWORD_DEFAULT);
 
@@ -77,7 +83,7 @@ if ($action == "login") {
 
         // If username or email exists, inform the user
         if ($checkResult->num_rows > 0) {
-            echo "Username or email already exists. <a href='index.html'>Try again.</a>";
+            echo "<script>alert('Username or email already exists. Please try again.'); window.location.href = 'index.html';</script>";
         } else {
             // Insert new user into the database
             $sql = "INSERT INTO tbl_users (user_username, user_email, user_password) VALUES (?, ?, ?)";

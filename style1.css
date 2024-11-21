@@ -1,0 +1,129 @@
+    /* Additional CSS for modal scrolling */
+    .modal {
+        overflow-y: auto;
+        max-height: 100%;
+    }
+    .modal-content {
+        max-height: 90%;
+        overflow-y: auto;
+    }
+    body {
+        background-image: url('bg1.jpg'); /* Replace 'background.jpg' with your image file path */
+        background-size: cover; /* Makes sure the background image covers the entire viewport */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-position: center; /* Centers the image */
+        background-attachment: fixed; /* Keeps the image fixed as you scroll */
+    }
+    .recipe-card, .modal-content, .button {
+        border-radius: 30px; /* Bubble-like rounded corners */
+        padding: 20px; /* Inner padding for the cards and modal */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        border: 2px solid #4CAF50; /* Green bubble border */
+    }
+
+    /* Recipe Card specific styles */
+    .recipe-card {
+        background-color: #fff; /* White background for the card */
+        cursor: pointer; /* Makes the card clickable */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    }
+
+    .recipe-card:hover {
+        transform: scale(1.05); /* Zooms in the card on hover */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    }
+
+    .unread {
+        background-color: #f9f9f9; /* Light gray background for unread notifications */
+        font-weight: bold; /* Bold text for unread notifications */
+    }
+
+    .highlight {
+        border-left: 5px solid #4CAF50; /* Add a green border for better visual indication */
+    }
+
+    .recipe-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+        border-radius: 30px 30px 0 0; /* Rounded top corners for images */
+    }
+    .kebab-menu-button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        padding: 0;
+    }
+    .kebab-menu {
+        z-index: 1000;
+    }
+
+    /* Modal-specific styles */
+    .modal-content {
+        background-color: #fff; /* White background for modal */
+        max-width: 600px; /* Limit modal width */
+        margin: auto;
+    }
+
+    /* Ensure the modal and button are in the front */
+    .modal {
+        z-index: 50;
+    }
+
+    .modal .close-modal-button {
+        z-index: 70;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Category select and other form elements with bubble border */
+    select, input, textarea {
+        border-radius: 30px; /* Bubble-like border */
+        padding: 10px 20px;
+        border: 2px solid #4CAF50;
+        outline: none;
+    }
+
+    /* Hover effect for form inputs */
+    select:hover, input:hover, textarea:hover {
+        border-color: #45a049; /* Darker green on hover */
+    }
+
+    /* Badge styles */
+    .badge-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .bronze-badge {
+        color: #cd7f32;
+        font-size: 1.25rem;
+    }
+
+    .silver-badge {
+        color: #c0c0c0;
+        font-size: 1.25rem;
+    }
+
+    .gold-badge {
+        color: #ffd700;
+        font-size: 1.25rem;
+    }
+
+    .badge-label {
+        color: #6b7280;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .recipe-card {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .modal-content {
+            width: 90%;
+        }
+    }

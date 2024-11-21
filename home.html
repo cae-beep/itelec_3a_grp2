@@ -6,142 +6,10 @@
     <title>MunchMate</title>
 
   <!-- External CSS and Scripts -->
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="style1.css" />
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
-<style>
-    /* Additional CSS for modal scrolling */
-    .modal {
-        overflow-y: auto;
-        max-height: 100%;
-    }
-    .modal-content {
-        max-height: 90%;
-        overflow-y: auto;
-    }
-    body {
-        background-image: url('bg1.jpg'); /* Replace 'background.jpg' with your image file path */
-        background-size: cover; /* Makes sure the background image covers the entire viewport */
-        background-repeat: no-repeat; /* Prevents the image from repeating */
-        background-position: center; /* Centers the image */
-        background-attachment: fixed; /* Keeps the image fixed as you scroll */
-    }
-    .recipe-card, .modal-content, .button {
-        border-radius: 30px; /* Bubble-like rounded corners */
-        padding: 20px; /* Inner padding for the cards and modal */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-        border: 2px solid #4CAF50; /* Green bubble border */
-    }
-
-    /* Recipe Card specific styles */
-    .recipe-card {
-        background-color: #fff; /* White background for the card */
-        cursor: pointer; /* Makes the card clickable */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-    }
-
-    .recipe-card:hover {
-        transform: scale(1.05); /* Zooms in the card on hover */
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
-    }
-
-    .unread {
-        background-color: #f9f9f9; /* Light gray background for unread notifications */
-        font-weight: bold; /* Bold text for unread notifications */
-    }
-
-    .highlight {
-        border-left: 5px solid #4CAF50; /* Add a green border for better visual indication */
-    }
-
-    .recipe-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover; /* Ensures the image covers the area without distortion */
-        border-radius: 30px 30px 0 0; /* Rounded top corners for images */
-    }
-    .kebab-menu-button {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 1.5rem;
-        padding: 0;
-    }
-    .kebab-menu {
-        z-index: 1000;
-    }
-
-    /* Modal-specific styles */
-    .modal-content {
-        background-color: #fff; /* White background for modal */
-        max-width: 600px; /* Limit modal width */
-        margin: auto;
-    }
-
-    /* Ensure the modal and button are in the front */
-    .modal {
-        z-index: 50;
-    }
-
-    .modal .close-modal-button {
-        z-index: 70;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    /* Category select and other form elements with bubble border */
-    select, input, textarea {
-        border-radius: 30px; /* Bubble-like border */
-        padding: 10px 20px;
-        border: 2px solid #4CAF50;
-        outline: none;
-    }
-
-    /* Hover effect for form inputs */
-    select:hover, input:hover, textarea:hover {
-        border-color: #45a049; /* Darker green on hover */
-    }
-
-    /* Badge styles */
-    .badge-container {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .bronze-badge {
-        color: #cd7f32;
-        font-size: 1.25rem;
-    }
-
-    .silver-badge {
-        color: #c0c0c0;
-        font-size: 1.25rem;
-    }
-
-    .gold-badge {
-        color: #ffd700;
-        font-size: 1.25rem;
-    }
-
-    .badge-label {
-        color: #6b7280;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .recipe-card {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .modal-content {
-            width: 90%;
-        }
-    }
-</style>
-
 </head>
 <body>
     <nav class="w-full flex justify-between items-center py-4 px-8 shadow-md">
@@ -159,20 +27,6 @@
 </nav>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Discover Section -->
     <div class="page w-full mt-8 px-8 hidden" id="discover">
 <!-- Top Recipes Header -->
@@ -187,31 +41,10 @@
     </select>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Top Recipes Container -->
 <div id="topRecipesContainer" class="grid grid-cols-3 gap-8">
     <!-- Top Recipes will be injected here -->
 </div>
-
-
-
-
-
-
 
 
         <!-- Discover Section -->
@@ -226,38 +59,9 @@
             </select>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Recipes container -->
         <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!-- Recipe Modal for Top Recipes -->
@@ -275,16 +79,10 @@
 </div>
 
 
-
-
-
-
-
-
     <!-- Recipe Modal for Discover Recipes -->
     <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white p-8 rounded-lg max-w-lg w-full">
-            <button class="mt-2 bg-red-500 text-white px-4 py-2 rounded float-right" onclick="closeModal()">Close</button>
+            <button class="mt-2 bg-gray-500 text-white px-4 py-2 rounded float-right" onclick="closeModal()">X</button>
             <h2 id="recipeTitle" class="text-green-800 text-4xl font-bold mb-4"></h2>
             <img id="recipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
             <p id="recipeDescription" class="text-lg text-gray-800 mb-4"></p>
@@ -296,14 +94,9 @@
     </div>
 
 
-
-
 <!-- Add Recipe Section -->
 <div class="page w-full mt-8 px-8 hidden" id="addRecipe">
-    <h1 class="text-green-800 text-6xl font-bold mb-8">Add Your Recipe</h1>
-
-
-
+    <h1 class="text-green-800 text-6xl font-bold mb-8 text-center">Add Your Recipe</h1>
 
     <!-- Form connects to the database -->
     <form class="flex flex-col space-y-4" action="http://127.0.0.1/addRecipe.php" method="POST" enctype="multipart/form-data">
@@ -321,15 +114,8 @@
 
         <label for="ingredients" class="text-green-800 text-lg">Ingredients:</label>
         <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
-
-
-
-
         <label for="procedure" class="text-green-800 text-lg">Procedure:</label>
         <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
-
-
-
 
         <!-- Category Dropdown -->
         <label for="category" class="text-green-800 text-lg">Category:</label>
@@ -340,22 +126,13 @@
             <option value="Snack">Snack</option>
             <option value="Dinner">Dinner</option>
         </select>
-
-
-
-
         <label for="imageInput" class="text-green-800 text-lg">Upload Image:</label>
         <input type="file" id="imageInput" name="imageInput" class="border border-green-800 px-4 py-2" accept="image/*" required />
-
-
-
-
         <img id="imagePreview" alt="Image Preview" class="mt-4" />
         <button type="submit" class="bg-yellow-500 text-green-800 text-lg font-bold py-2 px-4 rounded-full mt-4">Submit Recipe</button>
         <input type="hidden" id="base64Image" name="base64Image">
     </form>
 </div>
-
 
   <!-- Edit Recipe Section -->
   <div class="page w-full mt-8 px-8 hidden" id="editRecipe">
@@ -403,8 +180,6 @@
 </div>
 
 
-
-
 <!-- JavaScript for handling image preview and base64 conversion -->
 <script>
     document.getElementById('imageInput').addEventListener('change', function(event) {
@@ -436,36 +211,25 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
 </script>
 
 
-
-
-
-
-
-
 <!-- Notifications Section -->
 <div class="page w-full mt-8 px-8 hidden" id="notifications">
-    <h1 class="text-green-800 text-6xl font-bold mb-8">Notifications</h1>
+    <h1 class="text-green-800 text-6xl font-bold mb-8 text-center">Notifications</h1>
     <div id="notificationsContent" class="notifications-container">
         <!-- Notifications will be injected here dynamically -->
     </div>
 </div>
 
-
-
-
-
-
-
-
 <!-- User Profile Section -->
 <div class="page w-full mt-8 px-8 hidden" id="user">
-    <div class="flex justify-between items-center mb-8 relative">
+    <div class="text-center mb-8 relative">
         <h1 class="text-green-800 text-6xl font-bold">User Profile</h1>
-        <!-- Settings button to open modal -->
-        <button class="bg-transparent border-none cursor-pointer" id="settingsButton">
+        
+        <!-- Settings button to open modal, positioned to the upper right below the heading -->
+        <button class="bg-transparent border-none cursor-pointer absolute right-0 top-full mt-2 text-4xl" id="settingsButton">
             <span class="large-icon" role="img" aria-label="Settings Icon">⚙️</span>
         </button>
     </div>
+
 
 <!-- Main Content Container -->
 <div id="content" class="mt-8 px-8">
@@ -525,21 +289,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white p-8 rounded-lg w-96 relative">
@@ -556,21 +305,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- About Us Modal -->
 <div id="aboutUsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
@@ -580,14 +314,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         <h2 class="text-green-800 text-4xl font-bold mb-4 text-center">About Us</h2>
         <p class="text-lg text-gray-800 mb-6">
             Welcome to MunchMate—your go-to recipe app for sharing, discovering, and connecting through food! Whether you’re a seasoned chef or a kitchen newbie, MunchMate lets you upload your favorite recipes, explore exciting new dishes, and connect with a community of food lovers. Share your creations, swap cooking tips, and build your personal recipe collection. With MunchMate, every meal is an adventure waiting to happen! Dive in, cook up, and let’s make every bite memorable together.
-
-
-
-
-
-
-
-
         </p>
         <h3 class="text-xl font-bold text-green-800">Contact Information</h3>
         <p class="text-gray-800 mb-2">Email: munchmate@gmail.com</p>
@@ -595,13 +321,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         <p class="text-gray-800">Address: 143 Cornelia street Ave, Food City, USA</p>
     </div>
 </div>
-
-
-
-
-
-
-
 
 <!-- Recipe Modal -->
 <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -617,10 +336,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         <p id="recipeProcedure" class="text-lg text-gray-800"></p>
     </div>
 </div>
-
-
-
-
 <script>
     // Fetch the logged-in user's name
 function fetchUsername() {
@@ -993,9 +708,6 @@ fetch('getNotifications.php')
     })
     .catch(error => console.error('Error loading notifications:', error));
 }
-
-
-
 
 // Function to mark a notification as read
 function markNotificationAsRead(notificationId) {
