@@ -5,9 +5,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>MunchMate</title>
 
-
-
-
   <!-- External CSS and Scripts -->
 <link rel="stylesheet" href="style1.css" />
 <script src="https://cdn.tailwindcss.com"></script>
@@ -29,116 +26,58 @@
     </div>
 </nav>
 
-
-
-
-
-
-
-
-    <!-- Discover Section -->
-    <div class="page w-full mt-8 px-8 hidden" id="discover">
-<!-- Top Recipes Header -->
-<div class="flex justify-between items-center mb-8">
-    <h2 class="text-green-800 text-6xl font-bold mx-auto">Top Recipes</h2>
-    <select id="topCategoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded" onchange="loadTopRecipes()">
-        <option value="">Current Time</option>
-        <option value="Breakfast">Breakfast</option>
-        <option value="Lunch">Lunch</option>
-        <option value="Snack">Snack</option>
-        <option value="Dinner">Dinner</option>
-    </select>
-</div>
-
-
-
-
-<!-- Top Recipes Container -->
-<div id="topRecipesContainer" class="grid grid-cols-3 gap-8">
-    <!-- Top Recipes will be injected here -->
-</div>
-
-
-
-
-
-
-
-
-        <!-- Discover Section -->
-        <div class="flex justify-between items-center mb-8 mt-7">
-            <h1 class="text-green-800 text-6xl font-bold mx-auto">Discover Recipes</h1>
-            <select id="categoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded">
-                <option value="">Current Time</option>
-                <option value="Breakfast">Breakfast</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Snack">Snack</option>
-                <option value="Dinner">Dinner</option>
-            </select>
-        </div>
-
-
-
-
-        <!-- Recipes container -->
-        <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
+<!-- Discover Section -->
+<div class="page w-full mt-8 px-8 hidden" id="discover">
+    <!-- Top Recipes Header -->
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-green-800 text-6xl font-bold mx-auto">Top Recipes</h2>
+        <select id="topCategoryFilter" title="Filter by Category"
+            class="border border-green-800 p-2 rounded" onchange="loadTopRecipes()">
+            <option value="">Loading Category...</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Snack">Snack</option>
+            <option value="Dinner">Dinner</option>
+        </select>
     </div>
 
+    <!-- Top Recipes Container -->
+    <div id="topRecipesContainer" class="grid grid-cols-3 gap-8">
+        <!-- Top Recipes will be injected here -->
+    </div>
 
+    <!-- Discover Section -->
+    <div class="flex justify-between items-center mb-8 mt-7">
+        <h1 class="text-green-800 text-6xl font-bold mx-auto">Discover Recipes</h1>
+        <select id="categoryFilter" title="Filter by Category" class="border border-green-800 p-2 rounded">
+            <option value="">Loading Category...</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Snack">Snack</option>
+            <option value="Dinner">Dinner</option>
+        </select>
+    </div>
 
+    <!-- Recipes container -->
+    <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
+</div>
 
 <!-- Add Recipe Section -->
 <div class="page w-full mt-8 px-8 hidden" id="addRecipe">
     <h1 class="text-green-800 text-6xl font-bold mb-8 text-center">Add Your Recipe</h1>
-
-
-
 
     <!-- Form connects to the database -->
     <form class="flex flex-col space-y-4" action="http://127.0.0.1/addRecipe.php" method="POST" enctype="multipart/form-data">
         <label for="recipeName" class="text-green-800 text-lg">Recipe Name:</label>
         <input type="text" id="recipeName" name="recipeName" class="border border-green-800 px-4 py-2" placeholder="Enter the recipe name" required />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <label for="description" class="text-green-800 text-lg">Description:</label>
         <textarea id="description" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" required></textarea>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <label for="ingredients" class="text-green-800 text-lg">Ingredients:</label>
         <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
         <label for="procedure" class="text-green-800 text-lg">Procedure:</label>
         <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
-
-
-
 
         <!-- Category Dropdown -->
         <label for="category" class="text-green-800 text-lg">Category:</label>
@@ -157,9 +96,6 @@
     </form>
 </div>
 
-
-
-
   <!-- Edit Recipe Section -->
   <div class="page w-full mt-8 px-8 hidden" id="editRecipe">
     <h1 class="text-green-800 text-6xl font-bold mb-8">Edit Your Recipe</h1>
@@ -168,51 +104,17 @@
         <input type="hidden" id="editRecipeId" name="recipeId">
 
 
-
-
-
-
-
-
         <label for="editRecipeName" class="text-green-800 text-lg">Recipe Name:</label>
         <input type="text" id="editRecipeName" name="recipeName" class="border border-green-800 px-4 py-2" placeholder="Enter the recipe name" required />
-
-
-
-
-
-
-
 
         <label for="editDescription" class="text-green-800 text-lg">Description:</label>
         <textarea id="editDescription" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" required></textarea>
 
-
-
-
-
-
-
-
         <label for="editIngredients" class="text-green-800 text-lg">Ingredients:</label>
         <textarea id="editIngredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
 
-
-
-
-
-
-
-
         <label for="editProcedure" class="text-green-800 text-lg">Procedure:</label>
         <textarea id="editProcedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
-
-
-
-
-
-
-
 
         <!-- Category Dropdown -->
         <label for="editCategory" class="text-green-800 text-lg">Category:</label>
@@ -224,35 +126,14 @@
             <option value="Dinner">Dinner</option>
         </select>
 
-
-
-
-
-
-
-
         <label for="editImageInput" class="text-green-800 text-lg">Upload Image:</label>
         <input type="file" id="editImageInput" name="imageInput" class="border border-green-800 px-4 py-2" accept="image/*" />
-
-
-
-
-
-
-
 
         <img id="editImagePreview" alt="Image Preview" class="mt-4" />
         <button type="submit" class="bg-yellow-500 text-green-800 text-lg font-bold py-2 px-4 rounded-full mt-4">Save Changes</button>
         <input type="hidden" id="editBase64Image" name="base64Image">
     </form>
 </div>
-
-
-
-
-
-
-
 
 <!-- JavaScript for handling image preview and base64 conversion -->
 <script>
@@ -283,16 +164,7 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
 });
 
 
-
-
 </script>
-
-
-
-
-
-
-
 
 <!-- Notifications Section -->
 <div class="page w-full mt-8 px-8 hidden" id="notifications">
@@ -301,9 +173,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         <!-- Notifications will be injected here dynamically -->
     </div>
 </div>
-
-
-
 
 <!-- User Profile Section -->
 <div class="page w-full mt-8 px-8 hidden" id="user">
@@ -315,13 +184,6 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
             <span class="large-icon" role="img" aria-label="Settings Icon">⚙️</span>
         </button>
     </div>
-
-
-
-
-
-
-
 
 <!-- Main Content Container -->
 <div id="content" class="mt-8 px-8">
@@ -338,17 +200,11 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
                     <span class="badge-label">Kitchen Newbie (5 Likes)</span>
                 </div>
 
-
-
-
                 <!-- Silver Badge for 10 Likes -->
                 <div id="silverBadge" class="badge hidden">
                     <span class="silver-badge">🥈</span>
                     <span class="badge-label">Recipe Rookie (10 Likes)</span>
                 </div>
-
-
-
 
                 <!-- Gold Badge for 20 Likes -->
                 <div id="goldBadge" class="badge hidden">
@@ -357,31 +213,19 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
                 </div>
             </div>
 
-
-
-
             <!-- Total Likes Count -->
             <div class="flex justify-center items-center space-x-6 mt-2">
-                <span class="ml-12 text-green-800" id="totalLikes">Likes: 0</span>
+                <span class="ml-4 text-green-800" id="totalLikes">Likes: 0</span>
             </div>
-
-
-
 
             <div class="flex justify-start mt-6 space-x-4">
-                <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-500" onclick="showUserRecipes()">My Recipes</button>
-                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-500" onclick="showLikedRecipes()">Likes</button>
+                <button id="myRecipesButton" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-500" onclick="showUserRecipes()">My Recipes</button>
+                <button id="likedRecipesButton" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-500" onclick="showLikedRecipes()">Likes</button>
             </div>
+           
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 
 <!-- Dynamic User Recipes and Liked Recipes Sections -->
 <div id="userContent" class="mt-8 hidden">
@@ -392,27 +236,8 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         <!-- Dynamically displayed user recipes or liked recipes will appear here -->
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
 </div>
-
-
-
 
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
@@ -423,15 +248,11 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
         </button>
         <h2 class="text-green-800 text-4xl font-bold mb-6 text-center">Settings</h2>
         <ul class="space-y-4">
-            <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="editProfile()">Edit Profile</button></li>
             <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="showAboutUs()">About Us</button></li>
             <li><button class="block w-full text-left text-xl bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200" onclick="logout()">Logout</button></li>
         </ul>
     </div>
 </div>
-
-
-
 
 <!-- About Us Modal -->
 <div id="aboutUsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
@@ -453,28 +274,27 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
 <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="modal-content bg-white rounded-lg p-8 relative max-w-2xl w-full">
 
-        <!-- Close Button Aligned with Title -->
+        <!-- Close Button -->
         <div class="flex justify-between items-center mb-4">
             <h2 id="recipeTitle" class="text-green-800 text-4xl font-bold">Recipe Title</h2>
             <button class="text-gray-500 hover:text-gray-800 text-3xl font-bold" onclick="closeModal('recipeModal')">&times;</button>
         </div>
-        
+       
         <!-- Recipe Image -->
         <img id="recipeImage" src="" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded hidden">
-        
+       
         <!-- Recipe Description -->
         <p id="recipeDescription" class="text-lg text-gray-800 mb-4">Recipe Description</p>
-        
+       
         <!-- Recipe Ingredients -->
         <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
         <p id="recipeIngredients" class="text-lg text-gray-800 mb-4">Ingredients...</p>
-        
+       
         <!-- Recipe Procedure -->
         <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
         <p id="recipeProcedure" class="text-lg text-gray-800">Procedure...</p>
     </div>
 </div>
-
 
 <script>
     // Fetch the logged-in user's name
@@ -491,15 +311,6 @@ function fetchUsername() {
         .catch(error => console.error('Error fetching username:', error));
 }
 
-
-
-
-// Call fetchUsername when the page loads
-window.onload = fetchUsername;
-
-
-
-
     // Function to handle logout
     function logout() {
     window.location.href = 'logout.php';
@@ -508,9 +319,6 @@ window.onload = fetchUsername;
     document.getElementById('settingsButton').addEventListener('click', function() {
         document.getElementById('settingsModal').classList.remove('hidden');
     });
-
-
-
 
     function closeSettings() {
         document.getElementById('settingsModal').classList.add('hidden');
@@ -536,20 +344,10 @@ window.onload = fetchUsername;
         if (recipeModal) {
             recipeModal.classList.add('hidden');
         }
-   
-
-
-
 
 // Highlight the active tab
 document.querySelectorAll("nav a").forEach(tab => tab.classList.remove("bg-yellow-400", "text-white"));
 document.getElementById(`${pageId}Tab`).classList.add("bg-yellow-400", "text-white");
-
-
-
-
-
-
 
 
 // Call loadNotifications if the Notifications page is shown
@@ -559,13 +357,7 @@ if (pageId === 'notifications') {
 }
 }
 
-
-
-
 </script>
-
-
-
 
 <!-- JavaScript -->
 <script>
@@ -576,13 +368,9 @@ if (pageId === 'notifications') {
     }
 
 
-
-
     function saveLikedRecipes(likedRecipes) {
         document.cookie = "likedRecipes=" + JSON.stringify(likedRecipes) + "; path=/; max-age=" + (60 * 60 * 24 * 30);
     }
-
-
 
 
         // Function to check if the user is logged in
@@ -590,30 +378,23 @@ if (pageId === 'notifications') {
         return !!document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_id='));
     }
 
-
-
-
-    // Get current category based on time
-    function getCurrentCategory() {
-        const hours = new Date().getHours();
-        if (hours >= 4 && hours < 11) return 'Breakfast';
-        if (hours >= 11 && hours < 16) return 'Lunch';
-        if (hours >= 16 && hours < 20) return 'Snack';
-        return 'Dinner';
-    }
-
     function loadRecipes() {
     const selectedCategory = document.getElementById('categoryFilter').value || getCurrentCategory();
-    fetch('http://127.0.0.1/getRecipe.php')
+    fetch(`http://127.0.0.1/getRecipe.php?category=${encodeURIComponent(selectedCategory)}`)
         .then(response => response.json())
         .then(data => {
             const recipesContainer = document.getElementById('recipesContainer');
             recipesContainer.innerHTML = '';
-            const likedRecipes = getLikedRecipes();
-            const isLoggedIn = isUserLoggedIn();
-            const filteredData = data.filter(recipe => recipe.category === selectedCategory);
-            filteredData.forEach(recipe => {
-                const isLiked = likedRecipes.includes(recipe.recipeId);
+
+            // Log data to ensure we are getting correct userLiked values from backend
+            console.log("Recipes data from backend:", data);
+
+            // Filter recipes based on the selected category (if any)
+            const filteredRecipes = selectedCategory ? data.filter(recipe => recipe.category === selectedCategory) : data;
+
+            filteredRecipes.forEach(recipe => {
+                // Use the userLiked value from the backend response to determine if the current user has liked this recipe
+                const isLiked = recipe.userLiked;
 
                 // Properly decode the image URL before using it
                 const recipeImageSrc = recipe.img ? decodeURIComponent(recipe.img) : 'default-image.png';
@@ -638,12 +419,10 @@ if (pageId === 'notifications') {
                         <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
                             <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeCommentModal('${recipe.recipeId}')">X</button>
                             <h3 class="text-green-800 text-3xl font-bold mb-4">Comments for ${decodeURIComponent(recipe.name)}</h3>
-
                             <!-- Existing comments will be displayed here -->
                             <div id="all-comments-${recipe.recipeId}" class="mt-4">
                                 <!-- All comments will be appended here -->
                             </div>
-
                             <!-- Comment input -->
                             <div id="commentInput-${recipe.recipeId}" class="mt-4">
                                 <textarea placeholder="Add a comment" class="border border-green-800 w-full px-4 py-2"></textarea>
@@ -654,7 +433,8 @@ if (pageId === 'notifications') {
                 `;
                 recipesContainer.innerHTML += recipeCard;
             });
-            if (!filteredData.length) {
+
+            if (!filteredRecipes.length) {
                 recipesContainer.innerHTML = `<p class="text-red-600">No recipes available for ${selectedCategory}.</p>`;
             }
         })
@@ -663,84 +443,55 @@ if (pageId === 'notifications') {
 
 
 
-
-
-
-
 // Toggle like/unlike functionality
 function toggleLike(recipeId) {
-const likedRecipes = getLikedRecipes();
-const isLiked = likedRecipes.includes(recipeId);
-const action = isLiked ? 'unlike' : 'like';
+    const likedRecipes = getLikedRecipes();
+    const isLiked = likedRecipes.includes(recipeId);
+    const action = isLiked ? 'unlike' : 'like';
 
+    // Optimistically update UI state
+    const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
+    const likeCountElement = document.getElementById(`like-count-${recipeId}`);
+    let currentLikeCount = parseInt(likeCountElement.innerText) || 0;
 
+    // Toggle button text and count optimistically
+    likeButton.innerText = isLiked ? 'Like' : 'Unlike';
+    likeCountElement.innerText = `${isLiked ? currentLikeCount - 1 : currentLikeCount + 1} Likes`;
 
-
-// Log the action being sent
-console.log(`Sending action: ${action} for recipeId: ${recipeId}`);
-
-
-
-
-
-
-
-
-// Optimistically update UI state
-const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
-const likeCountElement = document.getElementById(`like-count-${recipeId}`);
-let currentLikeCount = parseInt(likeCountElement.innerText) || 0;
-
-
-
-
-// Toggle button text and count optimistically
-likeButton.innerText = isLiked ? 'Like' : 'Unlike';
-likeCountElement.innerText = `${isLiked ? currentLikeCount - 1 : currentLikeCount + 1} Likes`;
-
-
-
-
-// Update likedRecipes cookie
-if (isLiked) {
-    likedRecipes.splice(likedRecipes.indexOf(recipeId), 1);
-} else {
-    likedRecipes.push(recipeId);
-}
-saveLikedRecipes(likedRecipes);
-
-
-
-
-// Send request to server
-fetch('http://127.0.0.1/likeRecipe.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, recipeId })
-})
-.then(response => response.json())
-.then(data => {
-    if (!data.success) {
-        // Revert the optimistic update on failure
-        likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-        likeCountElement.innerText = `${currentLikeCount} Likes`; // Restore original count
-        alert(`Error: ${data.message}`);
+    // Update likedRecipes cookie
+    if (isLiked) {
+        likedRecipes.splice(likedRecipes.indexOf(recipeId), 1);
     } else {
-        // Update UI with the confirmed like count from the server
-        likeCountElement.innerText = `${data.likeCount} Likes`;
+        likedRecipes.push(recipeId);
     }
-})
-.catch(error => {
-    console.error('Error toggling like:', error);
-    // Revert optimistic update on error
-    likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-    likeCountElement.innerText = `${currentLikeCount} Likes`;
-    alert('There was an error. Please try again.');
-});
+    saveLikedRecipes(likedRecipes);
+
+    // Send request to server
+    fetch('http://127.0.0.1/likeRecipe.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, recipeId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            // Revert the optimistic update on failure
+            likeButton.innerText = isLiked ? 'Unlike' : 'Like';
+            likeCountElement.innerText = `${currentLikeCount} Likes`; // Restore original count
+            alert(`Error: ${data.message}`);
+        } else {
+            // Update UI with the confirmed like count from the server
+            likeCountElement.innerText = `${data.likeCount} Likes`;
+        }
+    })
+    .catch(error => {
+        console.error('Error toggling like:', error);
+        // Revert optimistic update on error
+        likeButton.innerText = isLiked ? 'Unlike' : 'Like';
+        likeCountElement.innerText = `${currentLikeCount} Likes`;
+        alert('There was an error. Please try again.');
+    });
 }
-
-
-
 
 // Function to open the comment modal for a specific recipe
 function openCommentModal(recipeId) {
@@ -753,17 +504,11 @@ function openCommentModal(recipeId) {
     }
 }
 
-
-
-
 // Function to close the comment modal
 function closeCommentModal(recipeId) {
     const modal = document.getElementById(`commentModal-${recipeId}`);
     modal.classList.add('hidden'); // Hide the modal
 }
-
-
-
 
 // Function to submit a new comment
 function addComment(recipeId) {
@@ -785,8 +530,6 @@ function addComment(recipeId) {
                 allCommentsDiv.appendChild(newComment);
 
 
-
-
                 // Clear the input field
                 commentInput.value = '';
             } else {
@@ -801,9 +544,6 @@ function addComment(recipeId) {
     }
 }
 
-
-
-
 function loadComments(recipeId) {
     fetch(`http://127.0.0.1/getRecipe.php?recipeId=${recipeId}`)
         .then(response => response.json())
@@ -811,9 +551,6 @@ function loadComments(recipeId) {
             const recipe = data.find(r => parseInt(r.recipeId) === parseInt(recipeId));
             const commentsContainer = document.getElementById(`all-comments-${recipeId}`);
             commentsContainer.innerHTML = ''; // Clear any existing comments
-
-
-
 
             if (recipe && recipe.comments && recipe.comments.length > 0) {
                 recipe.comments.forEach(comment => {
@@ -830,13 +567,6 @@ function loadComments(recipeId) {
         })
         .catch(error => console.error('Error loading comments:', error));
 }
-
-
-
-
-
-
-
 
 // Add Comment function (if user wants to add a new comment)
 function addComment(recipeId) {
@@ -864,13 +594,6 @@ function addComment(recipeId) {
     }
 }
 
-
-
-
-
-
-
-
 // Load top recipes based on the selected category
 function loadTopRecipes() {
     const selectedCategory = document.getElementById('topCategoryFilter').value || getCurrentCategory();
@@ -880,52 +603,68 @@ function loadTopRecipes() {
             const topRecipesContainer = document.getElementById('topRecipesContainer');
             topRecipesContainer.innerHTML = ''; // Clear existing content
 
-
-
-
             // Loop through each category and its top recipes
             for (const [category, recipes] of Object.entries(data)) {
                 const filteredTopRecipes = recipes.filter(recipe => recipe.likeCount > 0);  // Ensure only liked recipes are shown
            
                 // Show only the top 5 recipes from the filtered list
                 filteredTopRecipes.slice(0, 5).forEach(recipe => {
-                    const recipeCard = `
-                        <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800"
-                            onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img}')">
-                            <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" />
-                            <h3 class="text-green-800 text-xl font-bold mt-2">${recipe.name}</h3>
-                            <span class="like-count text-green-800 mt-2">${recipe.likeCount} Likes</span>
-                        </div>
-                    `;
-                    topRecipesContainer.innerHTML += recipeCard; // Add recipe card to the container
-                });
+    const recipeCard = `
+        <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800 cursor-pointer"
+            onclick="showRecipe('${encodeURIComponent(recipe.name)}', '${encodeURIComponent(recipe.desc)}', '${encodeURIComponent(recipe.ingredients)}', '${encodeURIComponent(recipe.procedure)}', '${encodeURIComponent(recipe.img)}')">
+            <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" />
+            <h3 class="text-green-800 text-xl font-bold mt-2">${recipe.name}</h3>
+            <span class="like-count text-green-800 mt-2">${recipe.likeCount} Likes</span>
+        </div>
+    `;
+    topRecipesContainer.innerHTML += recipeCard; // Add recipe card to the container
+});
+
             }
         })
         .catch(error => console.error('Error fetching top recipes:', error));
 }
+  // Function to determine the current category based on time of day
+  function getCurrentCategory() {
+            const hours = new Date().getHours();
+            if (hours >= 4 && hours < 11) {
+                return 'Breakfast';
+            } else if (hours >= 11 && hours < 16) {
+                return 'Lunch';
+            } else if (hours >= 16 && hours < 20) {
+                return 'Snack';
+            } else {
+                return 'Dinner';
+            }
+        }
 
+        // Function to set the default category based on the current time
+        function setCurrentCategory() {
+            const currentCategory = getCurrentCategory();
 
+            // Set the category for the top category filter dropdown
+            const topCategoryFilter = document.getElementById('topCategoryFilter');
+            if (topCategoryFilter) {
+                const currentCategoryOption = topCategoryFilter.querySelector('option[value=""]');
+                if (currentCategoryOption) {
+                    currentCategoryOption.textContent = currentCategory; // Update the text from "Loading Category..." to the actual category
+                    currentCategoryOption.value = currentCategory; // Set the value to match the current category
+                }
+            }
 
+            // Set the category for the discover category filter dropdown
+            const discoverCategoryFilter = document.getElementById('categoryFilter');
+            if (discoverCategoryFilter) {
+                const currentCategoryOption = discoverCategoryFilter.querySelector('option[value=""]');
+                if (currentCategoryOption) {
+                    currentCategoryOption.textContent = currentCategory; // Update the text from "Loading Category..." to the actual category
+                    currentCategoryOption.value = currentCategory; // Set the value to match the current category
+                }
+            }
+        }
 
-
-
-
-
-// Function to get current category based on time
-function getCurrentCategory() {
-    const hours = new Date().getHours();
-    if (hours >= 4 && hours < 11) return 'Breakfast';
-    if (hours >= 11 && hours < 16) return 'Lunch';
-    if (hours >= 16 && hours < 20) return 'Snack';
-    return 'Dinner';
-}
-
-
-
-
-
-
-
+        // Ensure that the current category is set right after the page loads
+        document.addEventListener('DOMContentLoaded', setCurrentCategory);
 
 // Function to load notifications
 function loadNotifications() {
@@ -935,9 +674,6 @@ fetch('getNotifications.php')
         console.log(data); // Log the response to ensure comments are included properly
         const notificationsContainer = document.getElementById('notificationsContent');
         notificationsContainer.innerHTML = ''; // Clear existing notifications
-
-
-
 
         if (data.length === 0) {
             notificationsContainer.innerHTML = '<p class="text-gray-600">You have no new notifications.</p>';
@@ -958,9 +694,6 @@ fetch('getNotifications.php')
     .catch(error => console.error('Error loading notifications:', error));
 }
 
-
-
-
 // Function to mark a notification as read
 function markNotificationAsRead(notificationId) {
 fetch('markNotifAsRead.php', {
@@ -980,61 +713,90 @@ fetch('markNotifAsRead.php', {
 }
 
 
-
-
-// Function to show user's recipes
 function showUserRecipes() {
     fetch('getUserRecipe.php') // Fetch user-created recipes
         .then(response => response.json())
         .then(data => {
             const userRecipesContainer = document.getElementById('userRecipes');
             userRecipesContainer.innerHTML = ''; // Clear existing content
+
             if (data.error) {
                 userRecipesContainer.innerHTML = `<p class="text-red-600">${data.error}</p>`;
                 return;
             }
 
-
-
-
-            // Display each recipe as a clickable list item with a kebab menu
+            // Display each recipe as a clickable list item
             if (data.length > 0) {
                 data.forEach(recipe => {
                     const recipeItem = `
                         <div class="recipe-item flex justify-between items-center text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2 relative" data-recipe-id="${recipe.recipeId}">
-                            <div onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img || 'null'}')" class="flex-1 cursor-pointer">
+                            <div class="flex-1 cursor-pointer" onclick="openRecipeModal(${recipe.recipeId})">
                                 ${recipe.name} - ${recipe.category}
                             </div>
-                            <!-- Kebab Menu -->
-                            <div class="relative">
-                                <button class="kebab-menu-button" onclick="toggleKebabMenu(event, '${recipe.recipeId}')">
-                                    &#x22EE; <!-- Unicode for vertical ellipsis (kebab menu) -->
-                                </button>
-                                <div id="kebabMenu-${recipe.recipeId}" class="kebab-menu hidden absolute right-0 bg-white border border-gray-300 shadow-lg rounded-lg mt-2">
-                                    <button class="block w-full text-left px-4 py-2 hover:bg-gray-200" onclick="editRecipe('${recipe.recipeId}')">Edit</button>
-                                    <button class="block w-full text-left px-4 py-2 hover:bg-red-200 text-red-600" onclick="deleteRecipe('${recipe.recipeId}')">Delete</button>
+                            <!-- Kebab Menu Button -->
+                            <button class="kebab-button text-gray-600 text-2xl px-2 focus:outline-none" onclick="toggleKebabMenu(event, ${recipe.recipeId})">⋮</button>
+                            <!-- Kebab Menu Options -->
+                            <div id="kebabMenu-${recipe.recipeId}" class="kebab-menu hidden absolute right-0 top-full mt-2 bg-white shadow-lg rounded-lg border border-gray-300 z-10">
+                                <button onclick="editRecipe(${recipe.recipeId})" class="block px-4 py-2 text-left w-full hover:bg-gray-100">Edit</button>
+                                <button onclick="deleteRecipe(${recipe.recipeId})" class="block px-4 py-2 text-left w-full text-red-600 hover:bg-gray-100">Delete</button>
+                            </div>
+                        </div>
+
+                        <!-- Recipe Modal for each recipe -->
+                        <div id="recipeModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                            <div class="modal-content bg-white rounded-lg p-8 relative max-w-2xl w-full">
+
+                                <!-- Close Button Aligned with Title -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-green-800 text-4xl font-bold">${recipe.name}</h2>
+                                    <button class="text-gray-500 hover:text-gray-800 text-3xl font-bold" onclick="closeRecipeModal(${recipe.recipeId})">&times;</button>
                                 </div>
-                             </div>
+
+                                <!-- Recipe Image -->
+                                <img src="${recipe.img ? decodeURIComponent(recipe.img) : 'default-image.png'}" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
+
+                                <!-- Recipe Description -->
+                                <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.desc).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+                                <!-- Recipe Ingredients -->
+                                <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+                                <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.ingredients).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+                                <!-- Recipe Procedure -->
+                                <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+                                <p class="text-lg text-gray-800">${decodeURIComponent(recipe.procedure).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+                            </div>
                         </div>
                     `;
                     userRecipesContainer.innerHTML += recipeItem;
                 });
             } else {
+                // Show a message if no recipes are available
                 userRecipesContainer.innerHTML = `<p class="text-gray-600">You have not posted any recipes yet.</p>`;
             }
 
-
-
-
             // Show the user content section and update the title
-            document.getElementById('userContent').classList.remove('hidden');
             document.getElementById('userSectionTitle').innerText = "My Recipes";
+            document.getElementById('userContent').classList.remove('hidden');
         })
         .catch(error => console.error('Error fetching user recipes:', error));
 }
 
+// Function to open the recipe modal
+function openRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+}
 
-
+// Function to close the recipe modal
+function closeRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
 
 // Function to toggle kebab menu visibility
 function toggleKebabMenu(event, recipeId) {
@@ -1053,12 +815,12 @@ function toggleKebabMenu(event, recipeId) {
     });
 }
 
-
-
-
-
-
-
+// Close all kebab menus if the user clicks outside
+document.addEventListener('click', () => {
+    document.querySelectorAll('.kebab-menu').forEach(menu => {
+        menu.classList.add('hidden');
+    });
+});
 
 function editRecipe(recipeId) {
             fetch(`getSpecificRecipe.php?recipeId=${recipeId}`)
@@ -1073,23 +835,9 @@ function editRecipe(recipeId) {
                         document.getElementById('editProcedure').value = recipe.procedure;
                         document.getElementById('editCategory').value = recipe.category;
 
-
-
-
-
-
-
-
                         if (recipe.img) {
                             document.getElementById('editImagePreview').src = recipe.img;
                         }
-
-
-
-
-
-
-
 
                         // Show edit recipe page
                         showPage('editRecipe');
@@ -1100,20 +848,26 @@ function editRecipe(recipeId) {
                 .catch(error => console.error('Error fetching recipe:', error));
         }
         function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-            // Show the selected page
-            const pageElement = document.getElementById(pageId);
-            if (pageElement) {
-                pageElement.classList.remove('hidden');
-            }
-        }
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+   
+    // Show the selected page
+    const pageElement = document.getElementById(pageId);
+    if (pageElement) {
+        pageElement.classList.remove('hidden');
+    }
+
+    // Highlight the active tab in the navigation
+    document.querySelectorAll("nav a").forEach(tab => tab.classList.remove("bg-yellow-400", "text-white"));
+    const activeTab = document.getElementById(`${pageId}Tab`);
+    if (activeTab) {
+        activeTab.classList.add("bg-yellow-400", "text-white");
+    }
+}
+
         // Add a callback to reload recipes after saving edits
 document.querySelector('form[action="http://127.0.0.1/editRecipe.php"]').addEventListener('submit', function(event) {
     event.preventDefault();
-
-
-
 
     // Assuming the form submission is AJAX or you handle the response
     fetch('editRecipe.php', {
@@ -1136,9 +890,6 @@ document.querySelector('form[action="http://127.0.0.1/editRecipe.php"]').addEven
     .catch(error => console.error('Error editing recipe:', error));
 });
 
-
-
-
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -1147,7 +898,6 @@ function openModal(modalId) {
     }
 }
 
-
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -1155,11 +905,6 @@ function closeModal(modalId) {
         document.body.classList.remove('modal-open'); // Enable body scroll
     }
 }
-
-
-
-
-
 
 // Function to handle delete recipe action
 function deleteRecipe(recipeId) {
@@ -1187,9 +932,6 @@ function deleteRecipe(recipeId) {
     }
 }
 
-
-
-
 // Close all kebab menus if the user clicks outside
 document.addEventListener('click', () => {
     document.querySelectorAll('.kebab-menu').forEach(menu => {
@@ -1197,10 +939,6 @@ document.addEventListener('click', () => {
     });
 });
 
-
-
-
-// Function to show liked recipes of the user as a list without images
 function showLikedRecipes() {
     fetch('getLikedRecipes.php') // Fetch liked recipes
         .then(response => response.json())
@@ -1208,53 +946,98 @@ function showLikedRecipes() {
             const likedRecipesContainer = document.getElementById('userRecipes');
             likedRecipesContainer.innerHTML = ''; // Clear existing content
 
-
-
-
             if (data.error) {
                 likedRecipesContainer.innerHTML = `<p class="text-red-600">${data.error}</p>`;
                 return;
             }
 
-
-
-
-            // Display each liked recipe as a clickable list item
+            // Display each liked recipe as a clickable list item with a modal for details
             if (data.length > 0) {
                 data.forEach(recipe => {
                     const recipeItem = `
-                        <div class="recipe-item cursor-pointer text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2"
-                            onclick="showRecipe('${recipe.name}', '${recipe.desc}', '${recipe.ingredients}', '${recipe.procedure}', '${recipe.img || 'null'}')">
+                        <div class="recipe-item flex items-center text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2 cursor-pointer" onclick="openRecipeModal(${recipe.recipeId})">
                             ${recipe.name} - ${recipe.category}
+                        </div>
+
+                        <!-- Recipe Modal for each liked recipe -->
+                        <div id="recipeModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                            <div class="modal-content bg-white rounded-lg p-8 relative max-w-2xl w-full">
+
+                                <!-- Close Button Aligned with Title -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-green-800 text-4xl font-bold">${recipe.name}</h2>
+                                    <button class="text-gray-500 hover:text-gray-800 text-3xl font-bold" onclick="closeRecipeModal(${recipe.recipeId})">&times;</button>
+                                </div>
+
+                                <!-- Recipe Image -->
+                                <img src="${recipe.img ? decodeURIComponent(recipe.img) : 'default-image.png'}" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
+
+                                <!-- Recipe Description -->
+                                <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.desc).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+                                <!-- Recipe Ingredients -->
+                                <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+                                <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.ingredients).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+                                <!-- Recipe Procedure -->
+                                <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+                                <p class="text-lg text-gray-800">${decodeURIComponent(recipe.procedure).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+                            </div>
                         </div>
                     `;
                     likedRecipesContainer.innerHTML += recipeItem;
                 });
             } else {
+                // Show a message if no liked recipes are available
                 likedRecipesContainer.innerHTML = `<p class="text-gray-600">You have not liked any recipes yet.</p>`;
             }
 
-
-
-
             // Show the user content section and update the title
-            document.getElementById('userContent').classList.remove('hidden');
             document.getElementById('userSectionTitle').innerText = "Liked Recipes";
+            document.getElementById('userContent').classList.remove('hidden');
         })
         .catch(error => console.error('Error fetching liked recipes:', error));
 }
+
+// Function to open the recipe modal
+function openRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+}
+
+// Function to close the recipe modal
+function closeRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+
 function showRecipe(name, description, ingredients, procedure, img) {
     // Decode the URL-encoded text for the recipe details
     const decodedName = decodeURIComponent(name);
-    const decodedDescription = decodeURIComponent(description).replace(/(?:\r\n|\r|\n)/g, '<br>');
-    const decodedIngredients = decodeURIComponent(ingredients).replace(/(?:\r\n|\r|\n)/g, '<br>');
-    const decodedProcedure = decodeURIComponent(procedure).replace(/(?:\r\n|\r|\n)/g, '<br>');
+    const decodedDescription = decodeURIComponent(description);
+    const decodedIngredients = decodeURIComponent(ingredients);
+    const decodedProcedure = decodeURIComponent(procedure);
 
-    // Set the decoded text to the respective HTML elements
+    // Create a temporary element to decode HTML entities like &lt; and &gt;
+    const tempDiv = document.createElement("div");
+    function decodeHtmlEntities(html) {
+        tempDiv.innerHTML = html;
+        return tempDiv.innerText || tempDiv.textContent;
+    }
+
+    // Decode HTML entities for ingredients and procedure
+    const cleanedIngredients = decodeHtmlEntities(decodedIngredients).replace(/<br\s*\/?>/g, '\n');
+    const cleanedProcedure = decodeHtmlEntities(decodedProcedure).replace(/<br\s*\/?>/g, '\n');
+
+    // Set the decoded text to the respective HTML elements with newlines
     document.getElementById('recipeTitle').innerText = decodedName;
-    document.getElementById('recipeDescription').innerHTML = decodedDescription;
-    document.getElementById('recipeIngredients').innerHTML = decodedIngredients;
-    document.getElementById('recipeProcedure').innerHTML = decodedProcedure;
+    document.getElementById('recipeDescription').innerText = decodedDescription;
+    document.getElementById('recipeIngredients').innerText = cleanedIngredients; // Using innerText to properly display newlines
+    document.getElementById('recipeProcedure').innerText = cleanedProcedure;
 
     // Handle the image display logic
     const recipeImage = document.getElementById('recipeImage');
@@ -1270,7 +1053,6 @@ function showRecipe(name, description, ingredients, procedure, img) {
     document.getElementById('recipeModal').classList.remove('hidden');
 }
 
-
 // Function to close the recipe modal
 function closeModal() {
     const modal = document.getElementById('recipeModal');
@@ -1278,7 +1060,6 @@ function closeModal() {
         modal.classList.add('hidden');
     }
 }
-
 
 // Function to fetch the total likes of the logged-in user and update badges
 function fetchTotalLikes() {
@@ -1289,26 +1070,17 @@ function fetchTotalLikes() {
                 const totalLikes = data.total_likes;
                 document.getElementById('totalLikes').textContent = `Likes: ${totalLikes}`;
 
-
-
-
                 // Show badges based on the total likes
                 const badgeContainer = document.getElementById('badgeContainer');
                 const bronzeBadge = document.getElementById('bronzeBadge');
                 const silverBadge = document.getElementById('silverBadge');
                 const goldBadge = document.getElementById('goldBadge');
 
-
-
-
                 // Reset badge visibility
                 bronzeBadge.classList.add('hidden');
                 silverBadge.classList.add('hidden');
                 goldBadge.classList.add('hidden');
                 badgeContainer.classList.add('hidden');
-
-
-
 
                 // Determine which badge to show based on likes
                 if (totalLikes >= 5) {
@@ -1328,20 +1100,12 @@ function fetchTotalLikes() {
         .catch(error => console.error('Error fetching total likes:', error));
 }
 
-
-
-
-
-
-
-
 // Initialize event listeners once DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Event listeners to close modal on button click or outside modal content
     document.querySelectorAll('.modal .close-modal-button').forEach(button => {
         button.addEventListener('click', () => closeModal());
     });
-
 
 // Add event listeners to close the modal when clicking outside the content
 document.querySelectorAll('.modal').forEach(modal => {
@@ -1352,24 +1116,8 @@ document.querySelectorAll('.modal').forEach(modal => {
         }
     });
 });
-
-
-
-
-
-
     document.getElementById('categoryFilter').addEventListener('change', loadRecipes);
-
-
-
-
 });
-
-
-
-
-
-
 
 
 // Load user data and recipes when the page loads
@@ -1381,67 +1129,19 @@ window.onload = function () {
     loadRecipes();
     showPage('discover');
     loadNotifications();
+    // Ensure the 'discover' page is the default one displayed on page load
+    showPage('discover');
 };
-
-
-
-
-
-
-
-
-// Event listeners for My Recipes and Liked Recipes buttons
-document.getElementById('myRecipesButton').addEventListener('click', showUserRecipes);
-document.getElementById('likedRecipesButton').addEventListener('click', showLikedRecipes);
-
-
-
-
-
-
-
 
     // Load notifications on page load
     document.addEventListener('DOMContentLoaded', loadNotifications);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>
 </html>
-
-
-
-
 
 
 

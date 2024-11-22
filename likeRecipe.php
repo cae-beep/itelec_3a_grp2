@@ -50,10 +50,18 @@ try {
 
         // Insert a new like
         $likeStmt = $conn->prepare("INSERT INTO tbl_likes (recipeId, user_Id, created_at) VALUES (?, ?, NOW())");
+        if ($likeStmt === false) {
+            throw new Exception("Prepare failed: " . $conn->error);
+        }
+
         $likeStmt->bind_param("ii", $recipeId, $userId);
         if ($likeStmt->execute()) {
             // Update the like count in the tbl_recipe table
             $updateStmt = $conn->prepare("UPDATE tbl_recipe SET likeCount = likeCount + 1 WHERE recipeId = ?");
+            if ($updateStmt === false) {
+                throw new Exception("Prepare failed: " . $conn->error);
+            }
+
             $updateStmt->bind_param("i", $recipeId);
             $updateStmt->execute();
             $updateStmt->close();
@@ -66,24 +74,9 @@ try {
             $likeCount = $countResult->fetch_assoc()['likeCount'];
             $countStmt->close();
 
-            // Insert a new notification if the liker is not the owner of the recipe
-            $ownerStmt = $conn->prepare("SELECT user_Id FROM tbl_recipe WHERE recipeId = ?");
-            $ownerStmt->bind_param("i", $recipeId);
-            $ownerStmt->execute();
-            $ownerResult = $ownerStmt->get_result();
-            $recipeOwner = $ownerResult->fetch_assoc()['user_Id'];
-            $ownerStmt->close();
-
-            if ($recipeOwner && $recipeOwner != $userId) {
-                $notifStmt = $conn->prepare("INSERT INTO tbl_notifications (user_Id, recipeId, notification_type, notification_status, created_at, notifier_user_Id) VALUES (?, ?, 'like', 0, NOW(), ?)");
-                $notifStmt->bind_param("iii", $recipeOwner, $recipeId, $userId); // $userId is the liker
-                $notifStmt->execute();
-                $notifStmt->close();
-            }
-
             $response = ['success' => true, 'message' => 'Recipe liked successfully!', 'likeCount' => $likeCount];
         } else {
-            throw new Exception('Error executing like.');
+            throw new Exception('Error executing like: ' . $likeStmt->error);
         }
         $likeStmt->close();
     } elseif ($action === 'unlike') {
@@ -101,10 +94,18 @@ try {
 
         // Delete the like
         $unlikeStmt = $conn->prepare("DELETE FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
+        if ($unlikeStmt === false) {
+            throw new Exception("Prepare failed: " . $conn->error);
+        }
+
         $unlikeStmt->bind_param("ii", $recipeId, $userId);
         if ($unlikeStmt->execute()) {
             // Decrease the like count in the tbl_recipe table
             $updateStmt = $conn->prepare("UPDATE tbl_recipe SET likeCount = GREATEST(likeCount - 1, 0) WHERE recipeId = ?");
+            if ($updateStmt === false) {
+                throw new Exception("Prepare failed: " . $conn->error);
+            }
+
             $updateStmt->bind_param("i", $recipeId);
             $updateStmt->execute();
             $updateStmt->close();
@@ -119,13 +120,12 @@ try {
 
             $response = ['success' => true, 'message' => 'Recipe unliked successfully!', 'likeCount' => $likeCount];
         } else {
-            throw new Exception('Error executing unlike.');
+            throw new Exception('Error executing unlike: ' . $unlikeStmt->error);
         }
         $unlikeStmt->close();
     } else {
         throw new Exception('Invalid action specified.');
     }
-
 } catch (Exception $e) {
     error_log($e->getMessage());
     $response['message'] = $e->getMessage();
@@ -136,4 +136,3 @@ echo json_encode($response);
 
 // Close the database connection
 $conn->close();
-?>

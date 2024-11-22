@@ -19,18 +19,27 @@ $userId = $_SESSION['user_id'] ?? null;
 
 // Add a Comment
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recipeId'], $_POST['comment'])) {
+    if (!$userId) {
+        echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+        exit;
+    }
+
     $recipeId = $_POST['recipeId'];
     $comment = $_POST['comment'];
 
     // Insert comment into the database
     $stmt = $conn->prepare("INSERT INTO tbl_comments (recipeId, comment, user_Id) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $recipeId, $comment, $userId);
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Comment added successfully.']);
+    if ($stmt) {
+        $stmt->bind_param("ssi", $recipeId, $comment, $userId);
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Comment added successfully.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to add comment: ' . $stmt->error]);
+        }
+        $stmt->close();
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to add comment.']);
+        echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $conn->error]);
     }
-    $stmt->close();
     exit;
 }
 
@@ -47,46 +56,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['rec
     if ($action === 'like') {
         // Check if already liked
         $checkStmt = $conn->prepare("SELECT COUNT(*) FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
-        $checkStmt->bind_param("ii", $recipeId, $userId);
-        $checkStmt->execute();
-        $checkStmt->bind_result($alreadyLiked);
-        $checkStmt->fetch();
-        $checkStmt->close();
+        if ($checkStmt) {
+            $checkStmt->bind_param("ii", $recipeId, $userId);
+            $checkStmt->execute();
+            $checkStmt->bind_result($alreadyLiked);
+            $checkStmt->fetch();
+            $checkStmt->close();
 
-        if ($alreadyLiked) {
-            echo json_encode(['success' => false, 'message' => 'Recipe already liked.']);
-        } else {
-            // Insert like
-            $stmt = $conn->prepare("INSERT INTO tbl_likes (recipeId, user_Id) VALUES (?, ?)");
-            $stmt->bind_param("ii", $recipeId, $userId);
-            if ($stmt->execute()) {
-                echo json_encode(['success' => true, 'message' => 'Recipe liked successfully.']);
+            if ($alreadyLiked) {
+                echo json_encode(['success' => false, 'message' => 'Recipe already liked.']);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to like recipe.']);
+                // Insert like
+                $stmt = $conn->prepare("INSERT INTO tbl_likes (recipeId, user_Id) VALUES (?, ?)");
+                if ($stmt) {
+                    $stmt->bind_param("ii", $recipeId, $userId);
+                    if ($stmt->execute()) {
+                        echo json_encode(['success' => true, 'message' => 'Recipe liked successfully.']);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Failed to like recipe: ' . $stmt->error]);
+                    }
+                    $stmt->close();
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Failed to prepare like statement: ' . $conn->error]);
+                }
             }
-            $stmt->close();
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to prepare check statement: ' . $conn->error]);
         }
     } elseif ($action === 'unlike') {
         // Check if the recipe is liked before attempting to unlike
         $checkStmt = $conn->prepare("SELECT COUNT(*) FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
-        $checkStmt->bind_param("ii", $recipeId, $userId);
-        $checkStmt->execute();
-        $checkStmt->bind_result($alreadyLiked);
-        $checkStmt->fetch();
-        $checkStmt->close();
+        if ($checkStmt) {
+            $checkStmt->bind_param("ii", $recipeId, $userId);
+            $checkStmt->execute();
+            $checkStmt->bind_result($alreadyLiked);
+            $checkStmt->fetch();
+            $checkStmt->close();
 
-        if (!$alreadyLiked) {
-            echo json_encode(['success' => false, 'message' => 'Recipe not liked by this user.']);
-        } else {
-            // Remove like
-            $stmt = $conn->prepare("DELETE FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
-            $stmt->bind_param("ii", $recipeId, $userId);
-            if ($stmt->execute()) {
-                echo json_encode(['success' => true, 'message' => 'Recipe unliked successfully.']);
+            if (!$alreadyLiked) {
+                echo json_encode(['success' => false, 'message' => 'Recipe not liked by this user.']);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to unlike recipe.']);
+                // Remove like
+                $stmt = $conn->prepare("DELETE FROM tbl_likes WHERE recipeId = ? AND user_Id = ?");
+                if ($stmt) {
+                    $stmt->bind_param("ii", $recipeId, $userId);
+                    if ($stmt->execute()) {
+                        echo json_encode(['success' => true, 'message' => 'Recipe unliked successfully.']);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Failed to unlike recipe: ' . $stmt->error]);
+                    }
+                    $stmt->close();
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Failed to prepare unlike statement: ' . $conn->error]);
+                }
             }
-            $stmt->close();
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to prepare check statement: ' . $conn->error]);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid action.']);
@@ -129,9 +154,18 @@ if (isset($_GET['top'])) {
 
     if ($categoryFilter) {
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $categoryFilter);
+        if ($stmt) {
+            $stmt->bind_param("s", $categoryFilter);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $conn->error]);
+            exit;
+        }
     } else {
         $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $conn->error]);
+            exit;
+        }
     }
 
     $stmt->execute();
@@ -143,9 +177,9 @@ if (isset($_GET['top'])) {
     }
 
     echo json_encode($topRecipes);
+    $stmt->close();
     exit;
 }
-
 
 // Fetch Regular Recipes 
 $sql = "
@@ -158,7 +192,7 @@ $sql = "
         r.category,
         r.img,
         COALESCE(l.likeCount, 0) AS likeCount,
-        CASE WHEN ul.user_Id IS NOT NULL THEN TRUE ELSE FALSE END AS userLiked,
+        CASE WHEN EXISTS (SELECT 1 FROM tbl_likes ul WHERE ul.recipeId = r.recipeId AND ul.user_Id = ?) THEN TRUE ELSE FALSE END AS userLiked,
         (
             SELECT GROUP_CONCAT(CONCAT(u.user_username, ': ', c.comment) SEPARATOR '||')
             FROM tbl_comments c
@@ -171,33 +205,36 @@ $sql = "
         (SELECT recipeId, COUNT(*) AS likeCount FROM tbl_likes GROUP BY recipeId) l
     ON
         r.recipeId = l.recipeId
-    LEFT JOIN
-        tbl_likes ul ON r.recipeId = ul.recipeId AND ul.user_Id = ?
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
+if ($stmt) {
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-$recipes = [];
-while ($row = $result->fetch_assoc()) {
-    $row['name'] = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') ?? 'No title available';
-    $row['desc'] = htmlspecialchars($row['desc'], ENT_QUOTES, 'UTF-8') ?? 'No description available';
-    $row['ingredients'] = htmlspecialchars($row['ingredients'], ENT_QUOTES, 'UTF-8') ?? 'No ingredients listed';
-    $row['procedure'] = htmlspecialchars($row['procedure'], ENT_QUOTES, 'UTF-8') ?? 'No procedure provided';
-    $row['category'] = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8') ?? 'Not categorized';
-    $row['img'] = $row['img'] ?? 'default-image.png'; // Default image path
-    $row['userLiked'] = (bool)($row['userLiked'] ?? false);
-    $row['comments'] = $row['comments'] ? explode('||', htmlspecialchars($row['comments'], ENT_QUOTES, 'UTF-8')) : [];
+    $recipes = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['name'] = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') ?? 'No title available';
+        $row['desc'] = htmlspecialchars($row['desc'], ENT_QUOTES, 'UTF-8') ?? 'No description available';
+        $row['ingredients'] = htmlspecialchars($row['ingredients'], ENT_QUOTES, 'UTF-8') ?? 'No ingredients listed';
+        $row['procedure'] = htmlspecialchars($row['procedure'], ENT_QUOTES, 'UTF-8') ?? 'No procedure provided';
+        $row['category'] = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8') ?? 'Not categorized';
+        $row['img'] = $row['img'] ?? 'default-image.png'; // Default image path
+        $row['userLiked'] = (bool)($row['userLiked'] ?? false);
+        $row['comments'] = $row['comments'] ? explode('||', htmlspecialchars($row['comments'], ENT_QUOTES, 'UTF-8')) : [];
 
-    $recipes[] = $row;
+        // Log data to see if 'userLiked' is being correctly set
+        error_log("Recipe ID: {$row['recipeId']}, User Liked: " . ($row['userLiked'] ? 'true' : 'false'));
+
+        $recipes[] = $row;
+    }
+
+    echo json_encode($recipes);
+    $stmt->close();
+} else {
+    echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $conn->error]);
 }
 
-
-echo json_encode($recipes);
-
-$stmt->close();
 $conn->close();
-
 ?>
