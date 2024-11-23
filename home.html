@@ -441,57 +441,43 @@ if (pageId === 'notifications') {
         .catch(error => console.error('Error fetching recipes:', error));
 }
 
-
-
-// Toggle like/unlike functionality
 function toggleLike(recipeId) {
-    const likedRecipes = getLikedRecipes();
-    const isLiked = likedRecipes.includes(recipeId);
-    const action = isLiked ? 'unlike' : 'like';
-
-    // Optimistically update UI state
     const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
     const likeCountElement = document.getElementById(`like-count-${recipeId}`);
     let currentLikeCount = parseInt(likeCountElement.innerText) || 0;
+    const action = likeButton.innerText === 'Like' ? 'like' : 'unlike';
 
-    // Toggle button text and count optimistically
-    likeButton.innerText = isLiked ? 'Like' : 'Unlike';
-    likeCountElement.innerText = `${isLiked ? currentLikeCount - 1 : currentLikeCount + 1} Likes`;
-
-    // Update likedRecipes cookie
-    if (isLiked) {
-        likedRecipes.splice(likedRecipes.indexOf(recipeId), 1);
-    } else {
-        likedRecipes.push(recipeId);
-    }
-    saveLikedRecipes(likedRecipes);
+    // Optimistically update the UI
+    likeButton.innerText = action === 'like' ? 'Unlike' : 'Like';
+    likeCountElement.innerText = `${action === 'like' ? currentLikeCount + 1 : currentLikeCount - 1} Likes`;
 
     // Send request to server
     fetch('http://127.0.0.1/likeRecipe.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, recipeId })
+        body: JSON.stringify({ action, recipeId }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            // Revert the optimistic update on failure
-            likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-            likeCountElement.innerText = `${currentLikeCount} Likes`; // Restore original count
-            alert(`Error: ${data.message}`);
-        } else {
-            // Update UI with the confirmed like count from the server
-            likeCountElement.innerText = `${data.likeCount} Likes`;
-        }
-    })
-    .catch(error => {
-        console.error('Error toggling like:', error);
-        // Revert optimistic update on error
-        likeButton.innerText = isLiked ? 'Unlike' : 'Like';
-        likeCountElement.innerText = `${currentLikeCount} Likes`;
-        alert('There was an error. Please try again.');
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            if (!data.success) {
+                // Revert UI changes on failure
+                likeButton.innerText = action === 'like' ? 'Like' : 'Unlike';
+                likeCountElement.innerText = `${currentLikeCount} Likes`;
+                alert(`Error: ${data.message}`);
+            } else {
+                // Update the UI with the confirmed like count
+                likeCountElement.innerText = `${data.likeCount} Likes`;
+            }
+        })
+        .catch((error) => {
+            console.error('Error toggling like:', error);
+            likeButton.innerText = action === 'like' ? 'Like' : 'Unlike';
+            likeCountElement.innerText = `${currentLikeCount} Likes`;
+            alert('There was an error. Please try again.');
+        });
 }
+
+
 
 // Function to open the comment modal for a specific recipe
 function openCommentModal(recipeId) {
@@ -1142,7 +1128,6 @@ window.onload = function () {
 
 </body>
 </html>
-
 
 
 
