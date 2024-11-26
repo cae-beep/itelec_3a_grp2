@@ -200,6 +200,13 @@ text-align: center;
 .large-icon {
   font-size: 80px;
 }
+.ingredients-box {
+  resize: vertical;
+}
+.procedure-box {
+  resize: vertical;
+}
+
 
 
 /* Notifications Container */

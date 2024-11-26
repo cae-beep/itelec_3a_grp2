@@ -14,10 +14,12 @@
 <body>
     <nav class="w-full flex justify-between items-center py-4 px-8 shadow-md">
         <div class="flex items-center">
-            <span class="bg-green-800 text-yellow-500 text-lg px-4 py-2 rounded-full font-bold flex items-center">
-                <img src="logo12.png" alt="Logo" class="w-4 h-5 mr-1"> MUNCHMATE
-            </span>
-        </div>    
+            <a href="#" onclick="showPage('discover')" class="flex items-center">
+                <span class="bg-green-800 text-yellow-500 text-lg px-4 py-2 rounded-full font-bold flex items-center">
+                    <img src="logo12.png" alt="Logo" class="w-4 h-5 mr-1"> MUNCHMATE
+                </span>
+            </a>
+        </div>     
     <div class="flex items-center space-x-8">
         <a id="discoverTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('discover')">DISCOVER</a>
         <a id="addRecipeTab" class="text-green-800 text-lg px-4 py-2 rounded-lg hover:bg-yellow-200 cursor-pointer" href="#" onclick="showPage('addRecipe')">ADD RECIPE</a>
@@ -62,7 +64,7 @@
     <div id="recipesContainer" class="grid grid-cols-3 gap-8"></div>
 </div>
 
-<!-- Add Recipe Section -->
+<<!-- Add Recipe Section -->
 <div class="page w-full mt-8 px-8 hidden" id="addRecipe">
     <h1 class="text-green-800 text-6xl font-bold mb-8 text-center">Add Your Recipe</h1>
 
@@ -72,12 +74,13 @@
         <input type="text" id="recipeName" name="recipeName" class="border border-green-800 px-4 py-2" placeholder="Enter the recipe name" required />
 
         <label for="description" class="text-green-800 text-lg">Description:</label>
-        <textarea id="description" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" required></textarea>
+        <textarea id="description" name="description" class="border border-green-800 px-4 py-2" placeholder="Describe the recipe" rows="3" required></textarea>
 
         <label for="ingredients" class="text-green-800 text-lg">Ingredients:</label>
-        <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2" placeholder="List the ingredients" required></textarea>
+        <textarea id="ingredients" name="ingredients" class="border border-green-800 px-4 py-2 ingredients-box" placeholder="List the ingredients" rows="8" required></textarea>
+
         <label for="procedure" class="text-green-800 text-lg">Procedure:</label>
-        <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2" placeholder="Describe the procedure" required></textarea>
+        <textarea id="procedure" name="procedure" class="border border-green-800 px-4 py-2 procedure-box" placeholder="Describe the procedure" rows="8" required></textarea>
 
         <!-- Category Dropdown -->
         <label for="category" class="text-green-800 text-lg">Category:</label>
@@ -254,23 +257,60 @@ document.getElementById('editImageInput').addEventListener('change', function(ev
     </div>
 </div>
 
-<!-- About Us Modal -->
 <div id="aboutUsModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
-        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeAboutUs()">
+    <div class="modal-content bg-white rounded-lg p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative mx-auto">
+        <!-- Close Button -->
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl" onclick="closeAboutUs()">
             &times;
         </button>
+
+        <!-- About Us Title -->
         <h2 class="text-green-800 text-4xl font-bold mb-4 text-center">About Us</h2>
-        <p class="text-lg text-gray-800 mb-6">
+
+        <!-- About Us Description -->
+        <p class="text-lg text-gray-800 mb-6 leading-relaxed">
             Welcome to MunchMate—your go-to recipe app for sharing, discovering, and connecting through food! Whether you’re a seasoned chef or a kitchen newbie, MunchMate lets you upload your favorite recipes, explore exciting new dishes, and connect with a community of food lovers. Share your creations, swap cooking tips, and build your personal recipe collection. With MunchMate, every meal is an adventure waiting to happen! Dive in, cook up, and let’s make every bite memorable together.
         </p>
+
+        <!-- Contact Information -->
         <h3 class="text-xl font-bold text-green-800">Contact Information</h3>
         <p class="text-gray-800 mb-2">Email: munchmate@gmail.com</p>
         <p class="text-gray-800 mb-2">Phone: +1 (555) 123-4567</p>
-        <p class="text-gray-800">Address: 143 Cornelia street Ave, Food City, USA</p>
+        <p class="text-gray-800 mb-6">Address: Lipa City, Batangas, Philippines</p>
+
+        <!-- Our Team Section -->
+        <h3 class="text-xl font-bold text-green-800 mb-4">Our Team</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Developer 1 -->
+            <div class="flex flex-col items-center text-center">
+                <img src="louella.jpg" alt="Developer 1" class="w-40 h-40 object-cover rounded-full mb-2 shadow-md">
+                <p class="text-lg text-green-800 font-bold">Louella Malabanan</p>
+            </div>
+            <!-- Developer 2 -->
+            <div class="flex flex-col items-center text-center">
+                <img src="greycel.jpg" alt="Developer 2" class="w-40 h-40 object-cover rounded-full mb-2 shadow-md">
+                <p class="text-lg text-green-800 font-bold">Greycel Cadangan</p>
+            </div>
+            <!-- Developer 3 -->
+            <div class="flex flex-col items-center text-center">
+                <img src="nemaree.jpg" alt="Developer 3" class="w-40 h-40 object-cover rounded-full mb-2 shadow-md">
+                <p class="text-lg text-green-800 font-bold">Nemaree Cosico</p>
+            </div>
+            <!-- Developer 4 -->
+            <div class="flex flex-col items-center text-center">
+                <img src="caryl.jpg" alt="Developer 4" class="w-40 h-40 object-cover rounded-full mb-2 shadow-md">
+                <p class="text-lg text-green-800 font-bold">Eloisa Caryl Tacla</p>
+            </div>
+            <!-- Developer 5 -->
+            <div class="flex flex-col items-center text-center">
+                <img src="francess.jpg" alt="Developer 5" class="w-40 h-40 object-cover rounded-full mb-2 shadow-md">
+                <p class="text-lg text-green-800 font-bold">Frances Villegas</p>
+            </div>
+        </div>
     </div>
 </div>
 
+        <!-- Recipe Modal-->
 <div id="recipeModal" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="modal-content bg-white rounded-lg p-8 relative max-w-2xl w-full">
 
@@ -386,43 +426,42 @@ if (pageId === 'notifications') {
             const recipesContainer = document.getElementById('recipesContainer');
             recipesContainer.innerHTML = '';
 
-            // Log data to ensure we are getting correct userLiked values from backend
             console.log("Recipes data from backend:", data);
 
             // Filter recipes based on the selected category (if any)
             const filteredRecipes = selectedCategory ? data.filter(recipe => recipe.category === selectedCategory) : data;
 
             filteredRecipes.forEach(recipe => {
-                // Use the userLiked value from the backend response to determine if the current user has liked this recipe
                 const isLiked = recipe.userLiked;
-
-                // Properly decode the image URL before using it
                 const recipeImageSrc = recipe.img ? decodeURIComponent(recipe.img) : 'default-image.png';
 
                 const recipeCard = `
                     <!-- Recipe Card -->
-                    <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800">
-                        <img src="${recipeImageSrc}" class="w-full h-48 object-cover cursor-pointer" alt="${decodeURIComponent(recipe.name)}" onclick="showRecipe('${encodeURIComponent(recipe.name)}', '${encodeURIComponent(recipe.desc)}', '${encodeURIComponent(recipe.ingredients)}', '${encodeURIComponent(recipe.procedure)}', '${recipe.img ? encodeURIComponent(recipe.img) : 'null'}')"/>
+                    <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800 cursor-pointer" onclick="openRecipeModal(${recipe.recipeId})">
+                        <img src="${recipeImageSrc}" class="w-full h-48 object-cover" alt="${decodeURIComponent(recipe.name)}"/>
                         <h2 class="text-green-800 text-xl font-bold mt-4">${decodeURIComponent(recipe.name)}</h2>
+                        <span class="text-gray-600 mt-1">By: ${recipe.username ? recipe.username : 'Unknown'}</span>
                         <div class="flex justify-center items-center space-x-4 mt-2">
-                            <button class="like-button bg-green-800 text-white px-4 py-2 rounded" data-recipe-id="${recipe.recipeId}" onclick="toggleLike(${recipe.recipeId})">
+                            <button class="like-button bg-green-800 text-white px-4 py-2 rounded" data-recipe-id="${recipe.recipeId}" onclick="event.stopPropagation(); toggleLike(${recipe.recipeId})">
                                 ${isLiked ? 'Unlike' : 'Like'}
                             </button>
                             <span class="like-count text-green-800 mt-2" id="like-count-${recipe.recipeId}">${recipe.likeCount} Likes</span>
                             <!-- Comment Section -->
-                            <button class="comment-btn text-blue-500 text-lg" onclick="openCommentModal('${recipe.recipeId}')">💬 Comment</button>
+                            <button class="comment-btn text-blue-500 text-lg" onclick="event.stopPropagation(); openCommentModal('${recipe.recipeId}')">💬 Comment</button>
                         </div>
                     </div>
 
                     <!-- Comment Modal for each recipe -->
-                    <div id="commentModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-                        <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
-                            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeCommentModal('${recipe.recipeId}')">X</button>
+                    <div id="commentModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50" onclick="closeModalOnClickOutside(event, '${recipe.recipeId}')">
+                        <div class="bg-white p-8 rounded-lg max-w-lg w-full relative" onclick="event.stopPropagation();">
+                            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeCommentModal('${recipe.recipeId}')">&times;</button>
                             <h3 class="text-green-800 text-3xl font-bold mb-4">Comments for ${decodeURIComponent(recipe.name)}</h3>
+                            
                             <!-- Existing comments will be displayed here -->
-                            <div id="all-comments-${recipe.recipeId}" class="mt-4">
+                            <div id="all-comments-${recipe.recipeId}" class="mt-4 border border-gray-300 p-4 rounded-lg overflow-y-auto" style="max-height: 300px;">
                                 <!-- All comments will be appended here -->
                             </div>
+
                             <!-- Comment input -->
                             <div id="commentInput-${recipe.recipeId}" class="mt-4">
                                 <textarea placeholder="Add a comment" class="border border-green-800 w-full px-4 py-2"></textarea>
@@ -439,6 +478,32 @@ if (pageId === 'notifications') {
             }
         })
         .catch(error => console.error('Error fetching recipes:', error));
+}
+
+// Function to open the recipe modal
+function openRecipeModal(recipeId) {
+    const modal = document.getElementById(`commentModal-${recipeId}`);
+    if (modal) {
+        modal.classList.remove('hidden');
+    } else {
+        console.error(`Could not find modal for recipeId: ${recipeId}`);
+    }
+}
+
+// Function to close the recipe modal
+function closeCommentModal(recipeId) {
+    const modal = document.getElementById(`commentModal-${recipeId}`);
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+
+// Function to close the modal when clicking outside of the content
+function closeModalOnClickOutside(event, recipeId) {
+    const modal = document.getElementById(`commentModal-${recipeId}`);
+    if (modal && event.target === modal) {
+        modal.classList.add('hidden');
+    }
 }
 
 function toggleLike(recipeId) {
@@ -496,39 +561,6 @@ function closeCommentModal(recipeId) {
     modal.classList.add('hidden'); // Hide the modal
 }
 
-// Function to submit a new comment
-function addComment(recipeId) {
-    const commentInput = document.querySelector(`#commentInput-${recipeId} textarea`);
-    const comment = commentInput.value.trim();
-    if (comment) {
-        fetch('http://127.0.0.1/addComment.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ recipeId, comment })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const allCommentsDiv = document.getElementById(`all-comments-${recipeId}`);
-                const newComment = document.createElement('div');
-                newComment.classList.add('comment');
-                newComment.innerText = comment; // Display the new comment
-                allCommentsDiv.appendChild(newComment);
-
-
-                // Clear the input field
-                commentInput.value = '';
-            } else {
-                alert(`Error: ${data.message}`);
-            }
-        })
-        .catch(error => {
-            console.error('Error adding comment:', error);
-        });
-    } else {
-        alert("Please enter a comment before submitting.");
-    }
-}
 
 function loadComments(recipeId) {
     fetch(`http://127.0.0.1/getRecipe.php?recipeId=${recipeId}`)
@@ -591,25 +623,77 @@ function loadTopRecipes() {
 
             // Loop through each category and its top recipes
             for (const [category, recipes] of Object.entries(data)) {
-                const filteredTopRecipes = recipes.filter(recipe => recipe.likeCount > 0);  // Ensure only liked recipes are shown
-           
+                const filteredTopRecipes = recipes.filter(recipe => recipe.likeCount > 0); // Ensure only liked recipes are shown
+
                 // Show only the top 5 recipes from the filtered list
                 filteredTopRecipes.slice(0, 5).forEach(recipe => {
-    const recipeCard = `
-        <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800 cursor-pointer"
-            onclick="showRecipe('${encodeURIComponent(recipe.name)}', '${encodeURIComponent(recipe.desc)}', '${encodeURIComponent(recipe.ingredients)}', '${encodeURIComponent(recipe.procedure)}', '${encodeURIComponent(recipe.img)}')">
-            <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" />
-            <h3 class="text-green-800 text-xl font-bold mt-2">${recipe.name}</h3>
-            <span class="like-count text-green-800 mt-2">${recipe.likeCount} Likes</span>
-        </div>
-    `;
-    topRecipesContainer.innerHTML += recipeCard; // Add recipe card to the container
-});
+                    const recipeCard = `
+                        <div class="recipe-card bg-white text-center rounded-lg p-6 flex flex-col items-center shadow-md border border-green-800 cursor-pointer"
+                            onclick="openRecipeModal(${recipe.recipeId})">
+                            <img src="${recipe.img}" class="w-full h-48 object-cover cursor-pointer" alt="${recipe.name}" />
+                            <h3 class="text-green-800 text-xl font-bold mt-2">${recipe.name}</h3>
+                            <span class="text-gray-600 mt-1">By: ${recipe.author}</span>
+                            <span class="like-count text-green-800 mt-2">${recipe.likeCount} Likes</span>
+                        </div>
 
+ <!-- Recipe Modal for each recipe -->
+<div id="recipeModal-${recipe.recipeId}" class="modal hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50" onclick="closeModalOnClickOutside(event, '${recipe.recipeId}')">
+    <div class="modal-content bg-white rounded-lg p-8 relative max-w-2xl w-full max-h-[80vh] overflow-y-auto" onclick="event.stopPropagation();">
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeRecipeModal(${recipe.recipeId})">&times;</button>
+        <h3 class="text-green-800 text-3xl font-bold mb-4">${decodeURIComponent(recipe.name)}</h3>
+
+        <!-- Recipe Image -->
+        <img src="${recipe.img ? decodeURIComponent(recipe.img) : 'default-image.png'}" alt="Recipe Image" class="w-full h-48 object-cover mb-4 rounded">
+
+        <!-- Recipe Description -->
+        <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.desc).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+        <!-- Recipe Ingredients -->
+        <h3 class="text-xl font-bold text-green-800 mb-2">Ingredients</h3>
+        <p class="text-lg text-gray-800 mb-4">${decodeURIComponent(recipe.ingredients).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+
+        <!-- Recipe Procedure -->
+        <h3 class="text-xl font-bold text-green-800 mb-2">Procedure</h3>
+        <p class="text-lg text-gray-800">${decodeURIComponent(recipe.procedure).replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+    </div>
+</div>
+                    `;
+                    topRecipesContainer.innerHTML += recipeCard; // Add recipe card to the container
+                });
             }
         })
         .catch(error => console.error('Error fetching top recipes:', error));
 }
+
+// Function to open the recipe modal
+function openRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.remove('hidden');
+    } else {
+        console.error(`Modal with ID recipeModal-${recipeId} not found.`);
+    }
+}
+
+// Function to close the recipe modal
+function closeRecipeModal(recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal) {
+        modal.classList.add('hidden');
+    } else {
+        console.error(`Modal with ID recipeModal-${recipeId} not found.`);
+    }
+}
+
+// Function to close the modal when clicking outside of the content
+function closeModalOnClickOutside(event, recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`);
+    if (modal && event.target === modal) {
+        modal.classList.add('hidden');
+    }
+}
+
+
   // Function to determine the current category based on time of day
   function getCurrentCategory() {
             const hours = new Date().getHours();
@@ -711,9 +795,15 @@ function showUserRecipes() {
                 return;
             }
 
+            // Debugging log for fetched recipes
+            console.log("Fetched User Recipes Data:", data);
+
             // Display each recipe as a clickable list item
             if (data.length > 0) {
                 data.forEach(recipe => {
+                    // Debugging log for image paths
+                    console.log("Recipe ID:", recipe.recipeId, "Image Path:", recipe.img);
+
                     const recipeItem = `
                         <div class="recipe-item flex justify-between items-center text-green-800 text-lg font-bold mb-4 border-b border-green-800 p-2 relative" data-recipe-id="${recipe.recipeId}">
                             <div class="flex-1 cursor-pointer" onclick="openRecipeModal(${recipe.recipeId})">
@@ -768,6 +858,7 @@ function showUserRecipes() {
         .catch(error => console.error('Error fetching user recipes:', error));
 }
 
+
 // Function to open the recipe modal
 function openRecipeModal(recipeId) {
     const modal = document.getElementById(`recipeModal-${recipeId}`);
@@ -780,6 +871,12 @@ function openRecipeModal(recipeId) {
 function closeRecipeModal(recipeId) {
     const modal = document.getElementById(`recipeModal-${recipeId}`);
     if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+function closeModalOnClickOutside(event, recipeId) {
+    const modal = document.getElementById(`recipeModal-${recipeId}`) || document.getElementById(`commentModal-${recipeId}`);
+    if (modal && event.target === modal) {
         modal.classList.add('hidden');
     }
 }
@@ -1001,7 +1098,7 @@ function closeRecipeModal(recipeId) {
     }
 }
 
-function showRecipe(name, description, ingredients, procedure, img) {
+function showRecipe(name, description, ingredients, procedure, img, username) {
     // Decode the URL-encoded text for the recipe details
     const decodedName = decodeURIComponent(name);
     const decodedDescription = decodeURIComponent(description);
@@ -1015,29 +1112,25 @@ function showRecipe(name, description, ingredients, procedure, img) {
         return tempDiv.innerText || tempDiv.textContent;
     }
 
-    // Decode HTML entities for ingredients and procedure
     const cleanedIngredients = decodeHtmlEntities(decodedIngredients).replace(/<br\s*\/?>/g, '\n');
     const cleanedProcedure = decodeHtmlEntities(decodedProcedure).replace(/<br\s*\/?>/g, '\n');
 
-    // Set the decoded text to the respective HTML elements with newlines
     document.getElementById('recipeTitle').innerText = decodedName;
     document.getElementById('recipeDescription').innerText = decodedDescription;
-    document.getElementById('recipeIngredients').innerText = cleanedIngredients; // Using innerText to properly display newlines
+    document.getElementById('recipeIngredients').innerText = cleanedIngredients;
     document.getElementById('recipeProcedure').innerText = cleanedProcedure;
+    document.getElementById('postedBy').innerText = `Posted by: ${username}`;
 
-    // Handle the image display logic
     const recipeImage = document.getElementById('recipeImage');
     if (img && img !== 'null') {
         recipeImage.src = decodeURIComponent(img);
-        recipeImage.classList.remove('hidden');
     } else {
-        recipeImage.src = 'default-image.png'; // Placeholder if no image is provided
-        recipeImage.classList.remove('hidden');
+        recipeImage.src = 'default-image.png';
     }
 
-    // Display the modal
     document.getElementById('recipeModal').classList.remove('hidden');
 }
+
 
 // Function to close the recipe modal
 function closeModal() {
@@ -1115,8 +1208,6 @@ window.onload = function () {
     loadRecipes();
     showPage('discover');
     loadNotifications();
-    // Ensure the 'discover' page is the default one displayed on page load
-    showPage('discover');
 };
 
     // Load notifications on page load

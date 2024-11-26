@@ -132,11 +132,14 @@ if (isset($_GET['top'])) {
             r.ingredients,
             r.procedure,
             r.img,
-            COUNT(l.recipeId) AS likeCount
+            COUNT(l.recipeId) AS likeCount,
+            u.user_username AS author
         FROM
             tbl_recipe r
         LEFT JOIN
             tbl_likes l ON r.recipeId = l.recipeId
+        LEFT JOIN
+            tbl_users u ON r.user_id = u.user_id
     ";
 
     if ($categoryFilter) {
@@ -173,6 +176,7 @@ if (isset($_GET['top'])) {
     $topRecipes = [];
 
     while ($row = $result->fetch_assoc()) {
+        $row['author'] = htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8') ?? 'Unknown'; // Author name handling
         $topRecipes[$row['category']][] = $row;
     }
 
@@ -180,6 +184,7 @@ if (isset($_GET['top'])) {
     $stmt->close();
     exit;
 }
+
 
 // Fetch Regular Recipes 
 $sql = "
@@ -192,11 +197,12 @@ $sql = "
         r.category,
         r.img,
         COALESCE(l.likeCount, 0) AS likeCount,
+        u.user_username AS username,
         CASE WHEN EXISTS (SELECT 1 FROM tbl_likes ul WHERE ul.recipeId = r.recipeId AND ul.user_Id = ?) THEN TRUE ELSE FALSE END AS userLiked,
         (
-            SELECT GROUP_CONCAT(CONCAT(u.user_username, ': ', c.comment) SEPARATOR '||')
+            SELECT GROUP_CONCAT(CONCAT(u2.user_username, ': ', c.comment) SEPARATOR '||')
             FROM tbl_comments c
-            LEFT JOIN tbl_users u ON c.user_Id = u.user_id
+            LEFT JOIN tbl_users u2 ON c.user_Id = u2.user_id
             WHERE c.recipeId = r.recipeId
         ) AS comments
     FROM
@@ -205,6 +211,8 @@ $sql = "
         (SELECT recipeId, COUNT(*) AS likeCount FROM tbl_likes GROUP BY recipeId) l
     ON
         r.recipeId = l.recipeId
+    LEFT JOIN
+        tbl_users u ON r.user_id = u.user_id
 ";
 
 $stmt = $conn->prepare($sql);
@@ -223,9 +231,7 @@ if ($stmt) {
         $row['img'] = $row['img'] ?? 'default-image.png'; // Default image path
         $row['userLiked'] = (bool)($row['userLiked'] ?? false);
         $row['comments'] = $row['comments'] ? explode('||', htmlspecialchars($row['comments'], ENT_QUOTES, 'UTF-8')) : [];
-
-        // Log data to see if 'userLiked' is being correctly set
-        error_log("Recipe ID: {$row['recipeId']}, User Liked: " . ($row['userLiked'] ? 'true' : 'false'));
+        $row['username'] = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8') ?? 'Unknown'; // Ensure username is included
 
         $recipes[] = $row;
     }
@@ -237,4 +243,5 @@ if ($stmt) {
 }
 
 $conn->close();
+
 ?>

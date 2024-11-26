@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 header('Content-Type: application/json');
 
@@ -46,6 +46,13 @@ if (isset($_GET['recipeId'])) {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
+        // Properly handle the image data
+        if (!empty($row['img'])) {
+            $row['img'] = "data:image/jpeg;base64," . base64_encode($row['img']);
+        } else {
+            $row['img'] = 'default-image.png'; // Placeholder if no image is provided
+        }
+
         $row['userLiked'] = (bool)$row['userLiked'];
         echo json_encode(['success' => true, 'recipe' => $row]);
     } else {
